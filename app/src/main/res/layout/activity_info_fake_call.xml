@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoFakeCallActivity">
+
+
+    <!--<EditText
+        android:id="@+id/callDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="Data"
+        android:inputType="date"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/callTime"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/callTime"
+        app:layout_constraintTop_toBottomOf="@+id/callName" />-->
+
+
+    <!-- <ImageButton
+        android:id="@+id/selectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="214dp"
+        android:layout_marginBottom="43dp"
+        app:layout_constraintBottom_toTopOf="@+id/selectTime"
+        app:layout_constraintStart_toEndOf="@+id/callTime"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_today"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />-->
+
+    <Button
+        android:id="@+id/scheduleCallButton"
+        android:layout_width="115dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="146dp"
+        android:text="Pianifica"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectTime" />
+
+    <EditText
+        android:id="@+id/callTime"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:clickable="false"
+        android:ems="10"
+        android:hint="Ora"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.325"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectTime" />
+
+    <EditText
+        android:id="@+id/callNumber"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="47dp"
+        android:ems="10"
+        android:hint="Numero"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/selectTime"
+        app:layout_constraintEnd_toEndOf="@+id/selectTime"
+        app:layout_constraintStart_toStartOf="@+id/callTime"
+        app:layout_constraintTop_toBottomOf="@+id/callName" />
+
+    <EditText
+        android:id="@+id/callName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="43dp"
+        android:ems="10"
+        android:hint="Mittente"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/callNumber"
+        app:layout_constraintEnd_toEndOf="@+id/callNumber"
+        app:layout_constraintStart_toStartOf="@+id/callNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="98dp"
+        android:layout_marginBottom="45dp"
+        android:text="Dati della chiamata:"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/callName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/selectTime"
+        android:layout_width="57dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleCallButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.691"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callNumber"
+        app:srcCompat="@drawable/alarm_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

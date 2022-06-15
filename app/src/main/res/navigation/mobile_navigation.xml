@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination ="@+id/navigation_dashboard">
+
+
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.appericolo.ui.map.MapFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_map_home" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.appericolo.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.appericolo.ui.preferiti.PreferitiFragment"
+        android:label="fragment_preferiti"
+        tools:layout="@layout/fragment_preferiti" />
+
+</navigation>

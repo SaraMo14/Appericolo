@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sharelocation.SelectDestinationActivity">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="288dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/select_destination"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="220dp"
+        android:layout_height="214dp"
+        android:layout_marginBottom="268dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        tools:listitem="@layout/recyclerview_item_luoghi" />
+
+    <EditText
+        android:id="@+id/editTextTextPostalAddress"
+        android:layout_width="277dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="60dp"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.763" />-->
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="286dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="76dp"
+        android:layout_weight="0.5"
+        android:hint="Search Location"
+        android:inputType="textAutoComplete|textPostalAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.036" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/load_destination_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.885"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <!--<androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="283dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/search_view_bg"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:queryHint="Cerca destinazione..."
+        tools:layout_editor_absoluteX="64dp">
+
+    </androidx.appcompat.widget.SearchView>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

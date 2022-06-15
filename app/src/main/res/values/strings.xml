@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Appericolo</string>
+    <string name="title_favorite">Preferiti</string>
+    <string name="title_home">Home</string>
+    <string name="title_account">Account</string>
+    <string name="title_activity_incoming_call">IncomingCallActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+      <!--<string name="dialogMessage_existingcall">Chiamata programmata alle ore </string>
+    <string name="dialogMessage_nonexistingcall">Nessuna chiamata programmata</string>-->
+
+      <!-- TODO: Remove or change this placeholder text -->
+    <string name="accept_call">Accetta</string>
+    <string name="decline_call">Rifiuta</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <!-- profilo utente -->
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="cellulare">Cellulare</string>
+    <string name="email">Email</string>
+    <string name="dialogTitle">Info sulla chiamata</string>
+    <!--<string name="dialogMessage_existingcall">Chiamata programmata alle ore </string>
+    <string name="dialogMessage_nonexistingcall">Nessuna chiamata programmata</string>-->
+
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+    <string name="login_name_hint">Name</string>
+    <string name="login_mobile_number_hint">Mobile Number</string>
+    <string name="required">Required</string>
+    <string name="password">password</string>
+    <string name="phone_number">phone_number</string>
+    <string name="submit">submit</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_preferences">PreferencesActivity</string>
+
+    <string name="select_destination">Inserisci una destinazione:</string>
+    <string name="title_activity_select_destination2">SelectDestination2Activity</string>
+    <string name="select_arrival_time">Inserisci l\'orario di arrivo stimato:</string>
+
+
+</resources>

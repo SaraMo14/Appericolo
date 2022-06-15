@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "658447631443",
+    "firebase_url": "https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "appericolo-23934",
+    "storage_bucket": "appericolo-23934.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658447631443:android:ce5d870ffca49c77ca72a6",
+        "android_client_info": {
+          "package_name": "com.example.appericolo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658447631443-ddt5m5a462ur35e747ankf66tltqkgcv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8VgFAfZ-Nk89mr_D58XfI5zJf8qUfxWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658447631443-ddt5m5a462ur35e747ankf66tltqkgcv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
