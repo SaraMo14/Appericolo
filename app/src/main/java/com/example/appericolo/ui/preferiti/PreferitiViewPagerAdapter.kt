@@ -1,11 +1,11 @@
-package com.example.appericolo_from_bottomnavigation.ui.preferiti
+package com.example.appericolo.ui.preferiti
 
 import android.content.Context
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.appericolo.ui.preferiti.contatti.ContattiFragment
+import com.example.appericolo.ui.preferiti.contacts.ContattiFragment
 import com.example.appericolo.ui.preferiti.luoghi.ListaLuoghiFragment
 
 

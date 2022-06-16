@@ -76,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = User(name, surname, cell_number, email, favContacts)
-                    database.child(name).setValue(user)
+                    database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
                     // store registration token
                     CommonInfo.retrieveAndStoreToken()

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.appericolo.databinding.FragmentPreferitiBinding
-import com.example.appericolo_from_bottomnavigation.ui.preferiti.PreferitiViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 class PreferitiFragment : Fragment() {
