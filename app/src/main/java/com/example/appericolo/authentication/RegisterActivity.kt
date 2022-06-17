@@ -69,13 +69,12 @@ class RegisterActivity : AppCompatActivity() {
         cell_number = binding.registerCell.text.toString()
         password = binding.registerPassword.text.toString()
         email = binding.registerEmail.text.toString()
-        var favContacts = arrayListOf<Contact>()
 
         mFirebaseAuth!!
             .createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val user = User(name, surname, cell_number, email, favContacts)
+                    val user = User(name, surname, cell_number, email)
                     database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
                     // store registration token
