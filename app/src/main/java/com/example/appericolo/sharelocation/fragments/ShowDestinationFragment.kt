@@ -1,21 +1,25 @@
-package com.example.appericolo.sharelocation
+package com.example.appericolo.sharelocation.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.location.Address
 import android.location.Geocoder
+import androidx.fragment.app.Fragment
+
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import com.example.appericolo.R
-import com.example.appericolo.databinding.ActivityShowDestinationBinding
 import com.example.appericolo.ui.map.MapFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,82 +27,67 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.IOException
 
+class ShowDestinationFragment : Fragment() {
 
-class ShowDestinationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var destination: String
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var binding: ActivityShowDestinationBinding
 
+    private val callback = OnMapReadyCallback { googleMap ->
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityShowDestinationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val intent = intent
-        destination= intent.getStringExtra("indirizzo").toString()
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        binding.backwardFloatingActionButton.setOnClickListener{
-            finish()
-        }
-        binding.forwardFab.setOnClickListener{
-            val address = Geocoder(this).getFromLocationName(destination, 1)[0]
-            val sendIntent = Intent(this, ArrivalTimeActivity::class.java)
-            val args = Bundle()
-            args.putParcelable("destinazione", LatLng(address.latitude, address.longitude))
-            //args.putParcelable("partenza", LatLng(MapFragment.lastLocation.latitude, MapFragment.lastLocation.longitude ) )
-            sendIntent.putExtra("LocationsBundle", args)
-            //startActivityForResult(sendIntent, 400)
-            startActivity(sendIntent)
-        }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        if (requestCode == Activity.RESULT_OK && requestCode == 400) {
-            //setResult(Activity.RESULT_OK, data)
-            finish()
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-
-
-    override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         showCurrentLocation()
         showDestination()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        val view=  inflater.inflate(R.layout.fragment_show_destination, container, false)
+
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
+
+        destination = arguments?.getString("indirizzo").toString()
+        view.findViewById<FloatingActionButton>(R.id.forwardFab).setOnClickListener{
+            val address = Geocoder(this.requireContext()).getFromLocationName(destination, 1)[0]
+            val bundle = bundleOf("coordinate" to LatLng(address.latitude, address.longitude), "indirizzo" to destination)
+            Navigation.findNavController(view).navigate(R.id.action_showDestinationFragment_to_arrivalTimeFragment, bundle)
+
+        }
+
+        return view
+    }
+
+
+
     private fun showCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
-                this,
+                this.requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             )
             != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
+                this.requireContext(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             )
             != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 MapFragment.LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
         mMap.isMyLocationEnabled = true
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) {
+        fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) {
             if(it != null){
 
                 MapFragment.lastLocation = it
@@ -109,9 +98,10 @@ class ShowDestinationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+
     private fun showDestination(){
         var addressList: List<Address>? = null
-        val geoCoder = Geocoder(this)
+        val geoCoder = Geocoder(this.requireContext())
         try {
             addressList = geoCoder.getFromLocationName(destination, 1)
 
@@ -126,13 +116,11 @@ class ShowDestinationActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         }catch (e: Exception)
         {
-            Toast.makeText(this, "Indirizzo non trovato. Tornare indietro e inserire un indirizzo valido", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.requireContext(), "Indirizzo non trovato. Tornare indietro e inserire un indirizzo valido", Toast.LENGTH_LONG).show()
         }
 
     }
     private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int = 0 ) {
-
-
 
         val markerOptions = MarkerOptions().position(currentLatLng)
         markerOptions.title("$currentLatLng")
@@ -148,7 +136,6 @@ class ShowDestinationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         mMap.addMarker(markerOptions)
     }
-
 
 
 }

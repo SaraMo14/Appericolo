@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
-import com.example.appericolo.SummaryActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ContattiFragment : Fragment() {

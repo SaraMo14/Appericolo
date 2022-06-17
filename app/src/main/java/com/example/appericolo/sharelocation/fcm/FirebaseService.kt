@@ -16,7 +16,7 @@ import kotlin.random.Random
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.content.Context
 import android.util.Log
-import com.example.appericolo.sharelocation.LocationUpdatesActivity
+import com.example.appericolo.sharelocation.LocationUpdatesServerActivity
 
 private const val CHANNEL_ID = "my_channel"
 
@@ -42,7 +42,9 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, LocationUpdatesActivity::class.java)
+        val intent = Intent(this, LocationUpdatesServerActivity::class.java)
+        val stopSharingFlag = message.data["stopSharing"]
+
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
@@ -51,9 +53,12 @@ class FirebaseService : FirebaseMessagingService() {
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        //add client uid
-        Log.i("FirebaseService", message.data["senderUid"].toString())
+
         intent.putExtra("senderUid", message.data["senderUid"])
+        intent.putExtra("arrivalTime", message.data["arrivalTime"])
+        intent.putExtra("destinationLat", message.data["destinationLat"])
+        intent.putExtra("destinationLong", message.data["destinationLong"])
+        intent.putExtra("stopSharing", stopSharingFlag)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])

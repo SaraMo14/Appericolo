@@ -15,4 +15,5 @@ class LocationFirebase {
     fun insertCurrentLocation(position: LatLng){
         database.child("position").setValue(position) //contiene position.latitude e position.longitude
     }
+
 }

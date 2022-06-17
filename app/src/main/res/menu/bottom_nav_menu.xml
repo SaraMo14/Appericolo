@@ -14,6 +14,7 @@
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_stat_name"
-        android:title="@string/title_account" />
+        android:title="@string/title_account"
+        />
 
 </menu>

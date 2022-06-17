@@ -8,21 +8,34 @@
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/drawable/ic_user.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_arrival_time.xml" value="0.1" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_client_path.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_fav_contacts_list.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_incoming_call.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_info_fake_call.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_location_updates.xml" value="0.1" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_location_updates_client.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_location_updates_server.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_new_contact.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_select_destination.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_show_destination.xml" value="0.1046875" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/activity_summary.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_account.xml" value="0.1" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_arrival_time.xml" value="0.11302083333333333" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_arrival_time_activity.xml" value="0.21920289855072464" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_blank.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_call_accepted.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_contatti.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_incoming_call.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_location_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_location_updates_client.xml" value="0.21920289855072464" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_map_home.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_preferiti.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_select_destination.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_show_destination.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/fragment_summary.xml" value="0.21920289855072464" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/item_contact.xml" value="0.1" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/layout/recyclerview_item_luoghi.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saram/Desktop/Appericolo/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />

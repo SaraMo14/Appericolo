@@ -3,9 +3,11 @@ package com.example.appericolo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +21,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import java.util.*
 
 
-const val TOPIC = "/topics/myTopic"
+//const val TOPIC = "/topics/myTopic"
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +50,18 @@ class MainActivity : AppCompatActivity() {
 
 
         val navView: BottomNavigationView = binding.navView
+
         val navController = findNavController(com.example.appericolo.R.id.nav_host_fragment_activity_main)
+
+        //nascondi navView quando condividi la posizione
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.locationUpdatesClientFragment) {
+                navView.visibility = View.GONE
+            } else {
+                navView.visibility = View.VISIBLE
+            }
+        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 com.example.appericolo.R.id.navigation_home, com.example.appericolo.R.id.navigation_dashboard, com.example.appericolo.R.id.navigation_notifications
@@ -60,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //Se l'utente avvia la condivisione della posizione, allora aggiorna la posizione ogni 10 sec
-        if(intent.getStringExtra("code") == "start_live_location"){
+        /*if(intent.getStringExtra("code") == "start_live_location"){
             val args = intent.getBundleExtra("LocationsBundle")
             Log.i("MainActivity", args?.getString("orario_arrivo").toString())
             Toast.makeText(this, args?.getString("orario_arrivo").toString(), Toast.LENGTH_LONG).show()
@@ -68,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("MainActivity", "sono nella main activity")
             locationViewModel.insertCurrentLocation()
             Log.i("MainActivity", "sono nella main activity2")
-        }
+        }*/
     }
 
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,6 +101,7 @@ class MainActivity : AppCompatActivity() {
     }*/
 
 }
+
 
 
 
