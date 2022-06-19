@@ -60,16 +60,17 @@ class ContattiFragment : Fragment() {
             }
 
         })
+        //in teoria da togliere
         contactViewModel.tokens.observe(viewLifecycleOwner, Observer(){
             Log.i("treno", it.size.toString())
         })
 
         view.findViewById<FloatingActionButton>(R.id.addFavContFAB).setOnClickListener{
-            /*val intent = Intent(this.requireContext(), NewContactActivity::class.java)
+            val intent = Intent(this.requireContext(), NewContactActivity::class.java)
             startActivity(intent)
 
-             */
-            contactViewModel.getTokens()
+
+            //contactViewModel.getTokens()
 
 
             //contactViewModel.getTokens().size.toString()
