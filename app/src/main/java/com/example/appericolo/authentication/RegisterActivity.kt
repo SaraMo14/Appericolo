@@ -33,23 +33,27 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        nameFocusListener()
-        surnameFocusListener()
-        emailFocusListener()
-        phoneFocusListener()
-        passwordFocusListener()
 
         mFirebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("users")
 
         binding.registerButton.setOnClickListener {
+            set_helpers()
             check_fileds()
         }
     }
 
+    fun set_helpers(){
+        binding.EmailContainer.helperText = validEmail()
+        binding.passwordContainer.helperText = validPassword()
+        binding.phoneContainer.helperText = validPhone()
+        binding.NameContainer.helperText = validName()
+        binding.SurnameContainer.helperText = validSurame()
+    }
 
     private fun check_fileds() {
+
         val validName = binding.NameContainer.helperText == null
         val validSurname = binding.SurnameContainer.helperText == null
         val validEmail = binding.EmailContainer.helperText == null
@@ -59,8 +63,6 @@ class RegisterActivity : AppCompatActivity() {
 
         if (validName && validSurname && validEmail && validPassword && validPhone)
             createAccount()
-        else
-            invalidForm()
     }
 
     private fun createAccount() {
@@ -77,7 +79,7 @@ class RegisterActivity : AppCompatActivity() {
                     val user = User(name, surname, cell_number, email)
                     database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
-                    // store registration token
+                    //store registration token
                     CommonInfo.retrieveAndStoreToken()
                     //
                     startActivity(intent)
@@ -93,38 +95,6 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
-    private fun invalidForm()
-    {
-        var message = ""
-        if(binding.EmailContainer.helperText != null)
-            message += "\n\nEmail: " + binding.EmailContainer.helperText
-        if(binding.passwordContainer.helperText != null)
-            message += "\n\nPassword: " + binding.passwordContainer.helperText
-        if(binding.phoneContainer.helperText != null)
-            message += "\n\nPhone: " + binding.phoneContainer.helperText
-        if(binding.NameContainer.helperText != null)
-            message += "\n\nName: " + binding.NameContainer.helperText
-        if(binding.SurnameContainer.helperText != null)
-            message += "\n\nSurname: " + binding.SurnameContainer.helperText
-
-        AlertDialog.Builder(this)
-            .setTitle("Invalid Form")
-            .setMessage(message)
-            .setPositiveButton("Okay"){ _,_ ->
-                // do nothing
-            }
-            .show()
-    }
-
-    private fun emailFocusListener() {
-        binding.registerEmail.setOnFocusChangeListener { _, focused ->
-            if(!focused)
-            {
-                binding.EmailContainer.helperText = validEmail()
-            }
-        }
-    }
-
     private fun validEmail(): String?
     {
         val emailText = binding.registerEmail.text.toString()
@@ -133,16 +103,6 @@ class RegisterActivity : AppCompatActivity() {
             return "Invalid Email Address"
         }
         return null
-    }
-
-    private fun passwordFocusListener()
-    {
-        binding.registerPassword.setOnFocusChangeListener { _, focused ->
-            if(!focused)
-            {
-                binding.passwordContainer.helperText = validPassword()
-            }
-        }
     }
 
     private fun validPassword(): String?
@@ -168,16 +128,6 @@ class RegisterActivity : AppCompatActivity() {
         return null
     }
 
-    private fun phoneFocusListener()
-    {
-        binding.registerCell.setOnFocusChangeListener { _, focused ->
-            if(!focused)
-            {
-                binding.phoneContainer.helperText = validPhone()
-            }
-        }
-    }
-
     private fun validPhone(): String?
     {
         val phoneText = binding.registerCell.text.toString()
@@ -192,15 +142,6 @@ class RegisterActivity : AppCompatActivity() {
         return null
     }
 
-    private fun nameFocusListener() {
-        binding.registerName.setOnFocusChangeListener { _, focused ->
-            if(!focused)
-            {
-                binding.NameContainer.helperText = validName()
-            }
-        }
-    }
-
     private fun validName(): String?
     {
         val nameText = binding.registerName.text.toString()
@@ -209,15 +150,6 @@ class RegisterActivity : AppCompatActivity() {
             return "Must insert a name"
         }
         return null
-    }
-
-    private fun surnameFocusListener() {
-        binding.registerSurname.setOnFocusChangeListener { _, focused ->
-            if(!focused)
-            {
-                binding.SurnameContainer.helperText = validSurame()
-            }
-        }
     }
 
     private fun validSurame(): String?
