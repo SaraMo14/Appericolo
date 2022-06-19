@@ -10,14 +10,12 @@
         android:id="@+id/textView"
         android:layout_width="327dp"
         android:layout_height="0dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginBottom="308dp"
+        android:layout_marginTop="156dp"
         android:text="@string/select_arrival_time"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/estimatedArrivalTime"

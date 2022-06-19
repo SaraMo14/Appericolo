@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -49,7 +50,6 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
     private val locationViewModel: LocationViewModel by viewModels {
         LocationViewModelFactory((this.activity?.application as LocationApplication).repository)
-
     }
 
     companion object{
@@ -80,13 +80,6 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
             LocationServices.getFusedLocationProviderClient(this.requireContext())
 
 
-        //update location on firebase every 10 sec
-        //locationViewModel.insertCurrentLocation()
-
-
-
-
-
         view.findViewById<FloatingActionButton>(R.id.stop_sharing).setOnClickListener() {
             showSafeArrivalDialog("Vuoi interrompere la condivisione?")
         }
@@ -102,15 +95,11 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
         showCurrentLocation()
-        showDestination(coordinate)
+        //mostra destinazione su mappa
+        showPlaceOnMap(coordinate, mMap)
         updateLocation()
     }
 
-    override fun showDestination(destinationCoordinates: LatLng){
-        val latLng = LatLng(destinationCoordinates.latitude, destinationCoordinates.longitude)
-            placeMarkerOnMap(latLng, mMap)
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-    }
 
     @SuppressLint("MissingPermission")
     override fun showCurrentLocation() {
@@ -119,9 +108,6 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
             if(it != null){
 
                 MapFragment.lastLocation = it
-                //
-                //locationViewModel.insertCurrentLocation(MapFragment.lastLocation)
-                //
                 val currentLatLng = LatLng(it.latitude, it.longitude)
                 placeMarkerOnMap(currentLatLng, mMap, R.drawable.clipart1828626) //marker della persona posizionato all'inizio del percorso
             }
@@ -130,8 +116,6 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     }
 
     private fun showSafeArrivalDialog(message: String){
-        //"La tua posizione è vicina all'arrivo. Interrompere la condivisione?"
-        //"L'orario d'arrivo stimato si avvicina. Interrompere la condivisione?"
 
         val navController = NavHostFragment.findNavController(this)
         val alertDialog: AlertDialog? = activity?.let {
@@ -149,7 +133,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
                         // These registration tokens come from the client FCM SDKs.
                         val recipientsTokens =
                             listOf(//"dCAS80DATU6chvEJ8gXXEp:APA91bFiIRG1rKXDNBn52LV2YZj9wulHqRQD9IdVAtqo31XJ9XUyxpZPGDFkqMke8_bU8GtIudhIGu-MS7oSlGJ_cN2mzCTsNGNK0gBMT5uhGe9f3PWG8xPwCVs0ivplim_Z5Fxu4Fbv",
-                            "dkfvD4RBTiWS1DERjl6iav:APA91bGZavMUD-UXUvvwmymOfZq-8hwGrrUHYT-UdYbjKGsKFIrfOxkMnBlCEjde0tPLBbKSussaIH2V3HJ1QEc0CikJC0Cz-5DcgJK-oOHkCCMeUxw9ODFWR5yoxDPhCmm9d5tB9ww7")
+                            "e3BKqdNETUCRBZMFf_4aeX:APA91bEYB7kPWdN57r0uDJ0tUXdnwRIM3ObArDqZvzP5B_CYZXZT0jXKe9_bSy2vUdpb91sEKCDWPR5fRfvlNzwMk5o0DS_tABTTBIo8YdPYSrRlzmCiNO6jZd2JvdCqNoEayCxQh1jk")
                         if (title.isNotEmpty() && message.isNotEmpty() && recipientsTokens.isNotEmpty()) {
                             for (token in recipientsTokens) {
                                 PushNotification(
@@ -177,7 +161,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
             builder.show()
         }
     }
-    private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int = 0 ) {
+    override fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int) {
 
         val markerOptions = MarkerOptions().position(currentLatLng)
         markerOptions.title("$currentLatLng")
@@ -215,17 +199,17 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     @SuppressLint("MissingPermission")//non c'è bisogno di controllare i permessi poiché è gia stato fatto nella home
     private fun updateLocation(){
         buildLocationRequest()
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
         getPendingIntent()?.let { fusedLocationClient.requestLocationUpdates(locationRequest, it) }
+
     }
 
     private fun buildLocationRequest(){
         locationRequest = LocationRequest.create()
         locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 5000
+        locationRequest.interval = 10000
         locationRequest.fastestInterval = 1000
-        locationRequest.smallestDisplacement = 10f
+        locationRequest.smallestDisplacement = 0f//10f
 
     }
 
@@ -237,11 +221,11 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
      fun updateFirebaseLocation(lastLocation: android.location.Location){
         this.activity?.runOnUiThread{
+
             //runOnUiThread runs the specified action on the UI thread. If the current thread is the UI thread,
             // then the action is executed immediately.
             // If the current thread is not the UI thread, the action is posted to the event queue of the UI thread.
             locationViewModel.insertCurrentLocation(lastLocation)
-            //Toast.makeText(context, "Sei ne thread", Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.appericolo.ui.map
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -34,12 +35,6 @@ ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
-        /**
-         * Request code for location permission request.
-         *
-         * @see .onRequestPermissionsResult
-         */
-
         lateinit var lastLocation: Location
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -90,6 +85,7 @@ ActivityCompat.OnRequestPermissionsResultCallback {
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun fetchLocation() {
         if (checkLocationPermission()) {
             mMap.isMyLocationEnabled = true

@@ -24,10 +24,6 @@ class SelectDestinationFragment : Fragment() {
         LocationViewModelFactory((this.activity?.application as LocationApplication).repository)
 
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,10 +42,6 @@ class SelectDestinationFragment : Fragment() {
             else{
                 val bundle = bundleOf("indirizzo" to view.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView).text.toString())
                 Navigation.findNavController(view).navigate(R.id.action_selectDestinationFragment_to_showDestinationFragment, bundle)
-                /*val intent = Intent(this, ShowDestinationActivity::class.java)
-                intent.putExtra("indirizzo", binding.autoCompleteTextView.text.toString())
-                startActivity(intent)*/
-
             }
         }
             return view

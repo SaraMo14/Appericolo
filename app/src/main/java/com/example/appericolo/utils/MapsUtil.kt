@@ -1,17 +1,35 @@
 package com.example.appericolo.utils
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import com.example.appericolo.R
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import java.text.SimpleDateFormat
 import java.util.*
 
 interface MapsUtil {
-    fun showDestination(destinationCoordinates: LatLng)
+    fun showPlaceOnMap(destinationCoordinates: LatLng, mMap: GoogleMap){
+        placeMarkerOnMap(destinationCoordinates, mMap, 0)
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(destinationCoordinates))
+    }
     fun showCurrentLocation()
+    fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int = 0)
+
+
     companion object {
-        fun isArrivalTimeExpired(time: String): Boolean {
+        fun isArrivalTimeExpired(stringTime: String): Boolean {
 
             val sdf = SimpleDateFormat("HH:mm")
-            val time: Date = sdf.parse(time)
+            var time: Date? = null
+            try{
+                time = sdf.parse(stringTime)
+            }catch (e: Exception){
+                return true
+            }
 
             val timeToMatch = Calendar.getInstance()
             timeToMatch[Calendar.HOUR_OF_DAY] = time.hours

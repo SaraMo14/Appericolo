@@ -63,7 +63,7 @@ class SummaryFragment : Fragment() {
             // These registration tokens come from the client FCM SDKs.
             val recipientsTokens =
                 listOf(//"dCAS80DATU6chvEJ8gXXEp:APA91bFiIRG1rKXDNBn52LV2YZj9wulHqRQD9IdVAtqo31XJ9XUyxpZPGDFkqMke8_bU8GtIudhIGu-MS7oSlGJ_cN2mzCTsNGNK0gBMT5uhGe9f3PWG8xPwCVs0ivplim_Z5Fxu4Fbv",
-                    "dkfvD4RBTiWS1DERjl6iav:APA91bGZavMUD-UXUvvwmymOfZq-8hwGrrUHYT-UdYbjKGsKFIrfOxkMnBlCEjde0tPLBbKSussaIH2V3HJ1QEc0CikJC0Cz-5DcgJK-oOHkCCMeUxw9ODFWR5yoxDPhCmm9d5tB9ww7")
+                    "e3BKqdNETUCRBZMFf_4aeX:APA91bEYB7kPWdN57r0uDJ0tUXdnwRIM3ObArDqZvzP5B_CYZXZT0jXKe9_bSy2vUdpb91sEKCDWPR5fRfvlNzwMk5o0DS_tABTTBIo8YdPYSrRlzmCiNO6jZd2JvdCqNoEayCxQh1jk")
             if (title.isNotEmpty() && message.isNotEmpty() && recipientsTokens.isNotEmpty()) {
                 for (token in recipientsTokens) {
                     PushNotification(

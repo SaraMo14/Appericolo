@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.appericolo.MainActivity
@@ -22,6 +23,7 @@ class MyLocationService : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
+
         if(intent!=null){
             val action = intent!!.action
             if(action.equals(ACTION_PROCESS_UPDATE)){

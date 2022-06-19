@@ -2,14 +2,21 @@ package com.example.appericolo.sharelocation
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.location.LocationManagerCompat
-import com.example.appericolo.databinding.ActivityLocationUpdatesServerBinding
-import com.google.android.gms.maps.model.LatLng
+import com.example.appericolo.R
+import com.example.appericolo.databinding.ActivityLocationUpdatesReceiverBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,26 +25,38 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class LocationUpdatesServerActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLocationUpdatesServerBinding
+class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var mMap: GoogleMap
+    private lateinit var binding: ActivityLocationUpdatesReceiverBinding
+    private lateinit var destination: LatLng
+    private lateinit var currentPosition: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLocationUpdatesServerBinding.inflate(layoutInflater)
 
+        binding = ActivityLocationUpdatesReceiverBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val senderUid = intent.getStringExtra("senderUid")
         val stopSharingFlag = intent.getStringExtra("stopSharing")
         val arrivalTime = intent.getStringExtra("arrivalTime").toString()
         val destinationLat = intent.getStringExtra("destinationLat")?.toDouble()
         val destinationLong = intent.getStringExtra("destinationLong")?.toDouble()
-        val destination = LatLng(destinationLat!!, destinationLong!!)
+        destination = LatLng(destinationLat!!, destinationLong!!)
+
+        var previousLocationMarker: Marker? = null
 
 
-        lateinit var currentPosition: LatLng
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
         val fireBase = FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/").getReference(
             "users/" + senderUid+ "/position")
-        Log.i("LocUpdates", senderUid.toString())
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -50,9 +69,15 @@ class LocationUpdatesServerActivity : AppCompatActivity() {
                     binding.textView3.text = lat.toString() + " " + long.toString()
                     currentPosition = LatLng(lat!!, long!!)
 
+                    try{
+                        previousLocationMarker?.remove()
+                        previousLocationMarker = placeMarkerOnMap(currentPosition, mMap)
+                    }catch(e:Exception){
+                        Log.d("location", e.toString())
+                    }
+
                     //se il tempo di arrivo previsto è passato e il client non è nelle vicinanze (200 metri)
                     //della destinazione, allora allerta gli amici con cui sta condividendo
-
                     if(!isCloseToDestination(currentPosition,destination) && isArrivalTimeExpired(arrivalTime)){
                         showDialog("L'orario di arrivo stimato è passato e l'utente è lontano dalla destinazione. Verifica che sia al sicuro!", "Safe arrival")
                     }
@@ -62,29 +87,32 @@ class LocationUpdatesServerActivity : AppCompatActivity() {
 
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("Data", databaseError.getMessage()) //Don't ignore errors!
+                Log.d("Data", databaseError.getMessage())
             }
 
 
         }
         fireBase.addValueEventListener(valueEventListener)
 
-        /*val s = LatLng(43.0, 43.0)
-        val destination = LatLng(destinationLat!!, destinationLong!!)
-
-        //se il tempo di arrivo previsto è passato e il client non è nelle vicinanze (200 metri)
-        //della destinazione, allora allerta gli amici con cui sta condividendo
-
-        if(!isCloseToDestination(s,destination) && isArrivalTimeExpired(arrivalTime)){
-            showEndSharingDialog("L'orario di arrivo stimato è passato e l'utente è lontano dalla destinazione. Verifica che sia al sicuro!")
-        }*/
-
         //se il client ha interrotto la condivisione della posizione
         if(stopSharingFlag == "true"){
             showDialog("L'utente è arrivato a destinazione sano e salvo!", "Safe arrival")
         }
 
+        Log.d("location", "inside OnCreate")
+    }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        // Add a marker in Sydney and move the camera
+        //val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions().position(destination).title("Destinazione"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(destination))
+
+        //
+        //polyline = mMap.addPolyline(PolylineOptions()
+            //.clickable(true))
     }
 
 
@@ -100,7 +128,7 @@ class LocationUpdatesServerActivity : AppCompatActivity() {
                 setPositiveButton("Chiudi",
                     DialogInterface.OnClickListener { dialog, id ->
                         //finish()
-                         })
+                    })
             }
 
             // Create the AlertDialog
@@ -147,5 +175,22 @@ class LocationUpdatesServerActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG).show()
             return true
         }
+    }
+
+    private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int=0): Marker {
+
+        val markerOptions = MarkerOptions().position(currentLatLng)
+        markerOptions.title("$currentLatLng")
+        if(markerIconId!=0){
+            //make function
+            val height = 70
+            val width = 70
+            val bitmapdraw = resources.getDrawable(markerIconId) as BitmapDrawable
+            val b = bitmapdraw.bitmap
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+        }
+        return mMap.addMarker(markerOptions)!!
     }
 }
