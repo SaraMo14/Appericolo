@@ -4,20 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sharelocation.SelectDestinationActivity">
+    tools:context=".sharelocation.fragments.SelectDestinationFragment">
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="288dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/select_destination"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!--<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -46,19 +34,34 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.763" />-->
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="288dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/select_destination"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="286dp"
         android:layout_height="50dp"
-        android:layout_marginStart="52dp"
         android:layout_marginTop="76dp"
         android:layout_weight="0.5"
-        android:hint="Search Location"
+        android:hint="Cerca destinazione"
+        android:imeOptions="actionDone"
         android:inputType="textAutoComplete|textPostalAddress"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/load_destination_button"

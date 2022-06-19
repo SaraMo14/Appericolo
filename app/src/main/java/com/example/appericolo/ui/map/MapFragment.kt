@@ -1,5 +1,6 @@
 package com.example.appericolo.ui.map
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -14,18 +15,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.appericolo.R
 import com.example.appericolo.InfoFakeCallActivity
-import com.example.appericolo.databinding.FragmentMapHomeBinding
-import com.example.appericolo.sharelocation.SelectDestinationActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -34,15 +32,9 @@ ActivityCompat.OnRequestPermissionsResultCallback {
 
     //MAP SETTINGS
     private lateinit var mMap: GoogleMap
-    private lateinit var binding: FragmentMapHomeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object {
-        /**
-         * Request code for location permission request.
-         *
-         * @see .onRequestPermissionsResult
-         */
         lateinit var lastLocation: Location
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
@@ -67,6 +59,7 @@ ActivityCompat.OnRequestPermissionsResultCallback {
     ): View {
         val view = inflater.inflate(R.layout.fragment_map_home, container, false)
 
+
         view.findViewById<FloatingActionButton>(R.id.goToFakeCallButton).setOnClickListener() {
             val intent = Intent(this.requireContext(), InfoFakeCallActivity::class.java)
             startActivity(intent)
@@ -74,9 +67,10 @@ ActivityCompat.OnRequestPermissionsResultCallback {
 
         view.findViewById<FloatingActionButton>(R.id.goToSelectDestinationButton)
             .setOnClickListener() {
-                val intent = Intent(this.requireContext(), SelectDestinationActivity::class.java)
-                startActivity(intent)
-                //startActivityForResult(intent, 400)
+                /*val intent = Intent(this.requireContext(), SelectDestinationActivity::class.java)
+                startActivity(intent)*/
+                Navigation.findNavController(view).navigate(R.id.action_navigation_dashboard_to_selectDestinationFragment)
+
             }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -91,14 +85,16 @@ ActivityCompat.OnRequestPermissionsResultCallback {
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun fetchLocation() {
         if (checkLocationPermission()) {
             mMap.isMyLocationEnabled = true
             fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) {
                 if (it != null) {
                     lastLocation = it
-                    val currentLatLng = LatLng(it.latitude, it.longitude)
-                    placeMarkerOnMap(currentLatLng, mMap)
+                    //val currentLatLng = LatLng(it.latitude, it.longitude)
+                    mMap.clear()
+                    //placeMarkerOnMap(currentLatLng, mMap)
                     //Toast.makeText(context, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -110,11 +106,11 @@ ActivityCompat.OnRequestPermissionsResultCallback {
         return false
     }
 
-    private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap) {
+    /*private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap) {
         val markerOptions = MarkerOptions().position(currentLatLng)
         markerOptions.title("$currentLatLng")
         mMap.addMarker(markerOptions)
-    }
+    }*/
 
        private fun checkLocationPermission(): Boolean {
             if (ActivityCompat.checkSelfPermission(

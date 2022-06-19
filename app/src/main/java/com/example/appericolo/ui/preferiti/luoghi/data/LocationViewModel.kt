@@ -30,18 +30,16 @@ class LocationViewModel(private val repository: LocationRepository) : ViewModel(
     }
 
     //firebase query
-    fun insertCurrentLocation(){
-       viewModelScope.launch(Dispatchers.IO) {
-            Log.i("help", MapFragment.lastLocation.latitude.toString())
-                        Log.i("help", MapFragment.lastLocation.longitude.toString())
-                        repository.insertCurrentLocation(LatLng(MapFragment.lastLocation.latitude, MapFragment.lastLocation.longitude))
-                        delay(10000)
-                    }
+    fun insertCurrentLocation(lastLocation: android.location.Location){
+       //viewModelScope.launch(Dispatchers.IO) {
+               Log.i("help", lastLocation.latitude.toString())
+               Log.i("help", lastLocation.longitude.toString())
+               repository.insertCurrentLocation(LatLng(lastLocation.latitude,
+                   lastLocation.longitude))
+               //delay(5000)
 
-                //}
-            //}
-
-        }
+           //}
+       }
 }
 
 class LocationViewModelFactory(private val repository: LocationRepository) : ViewModelProvider.Factory {

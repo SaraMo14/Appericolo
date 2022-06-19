@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/markerImageView"
             android:layout_width="5dp"
-            android:layout_height="62dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_baseline_place_24" />
 
@@ -31,19 +31,20 @@
         <TextView
             android:id="@+id/textViewIndirizzo"
             style="@style/word_title"
-            android:layout_width="225dp"
-            android:layout_height="61dp"
+            android:layout_width="241dp"
+            android:layout_height="match_parent"
             android:background="#00FFFFFF" />
 
         <ImageView
             android:id="@+id/delLocationButton"
             android:layout_width="52dp"
-            android:layout_height="38dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:adjustViewBounds="false"
             android:clickable="true"
             android:cropToPadding="false"
             android:focusable="true"
+            android:padding="20dp"
             app:srcCompat="@drawable/ic_baseline_delete_24"
             app:tint="@color/Red"
             tools:ignore="SpeakableTextPresentCheck" />
