@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
-import com.example.appericolo.SummaryActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ContattiFragment : Fragment() {
@@ -61,10 +60,20 @@ class ContattiFragment : Fragment() {
             }
 
         })
+        contactViewModel.tokens.observe(viewLifecycleOwner, Observer(){
+            Log.i("treno", it.size.toString())
+        })
 
         view.findViewById<FloatingActionButton>(R.id.addFavContFAB).setOnClickListener{
-            val intent = Intent(this.requireContext(), NewContactActivity::class.java)
+            /*val intent = Intent(this.requireContext(), NewContactActivity::class.java)
             startActivity(intent)
+
+             */
+            contactViewModel.getTokens()
+
+
+            //contactViewModel.getTokens().size.toString()
+
         }
         return view
     }

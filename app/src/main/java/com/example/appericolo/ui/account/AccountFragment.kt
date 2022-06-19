@@ -1,16 +1,20 @@
 package com.example.appericolo.ui.account
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.example.appericolo.authentication.User
 import com.example.appericolo.databinding.FragmentAccountBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class AccountFragment : Fragment() {
+
 
     private var _binding: FragmentAccountBinding? = null
 
@@ -23,25 +27,21 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        var database: DatabaseReference =
+            FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("users/")
+        database.child(Firebase.auth.currentUser?.uid.toString()).get().addOnSuccessListener { infos->
+            binding.etFirstName.text = infos.child("name").getValue().toString()
+            binding.etLastName.text = infos.child("surname").getValue().toString()
+            binding.etEmail.text = infos.child("email").getValue().toString()
+            binding.etContactNo.text = infos.child("cell_number").getValue().toString()
+        }.addOnFailureListener{
+        }
 
-        var user = notificationsViewModel.user
-        binding.etEmail.text = user.email
-
-
-        /*notificationsViewModel.user.observe(viewLifecycleOwner, Observer{
-            binding.etEmail.text = it.email
-        })
-
-         */
-        //val textView: TextView = binding.textNotifications
-        //notificationsViewModel.text.observe(viewLifecycleOwner) {
-          //  textView.text = it
-        //}
         return root
     }
 

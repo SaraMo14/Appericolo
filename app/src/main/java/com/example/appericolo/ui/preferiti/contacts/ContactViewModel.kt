@@ -18,7 +18,17 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
         repository = ContactRepository(ContactRoomDatabase.getDatabase(application))
         readAllData = repository.allFavContacts
         readAllDataFromLocal = repository.allFavContacts
+
+    }
+    private val _tokens = MutableLiveData<ArrayList<String>>()
+
+    val tokens : LiveData<ArrayList<String>> = _tokens
+
+    fun getTokens(){
+        viewModelScope.launch {
+            _tokens.value = repository.getTokens()
         }
+    }
 
     fun putFavFromRemoteToLocal(){
         viewModelScope.launch(Dispatchers.IO){
@@ -26,6 +36,16 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+     /*fun getTokens(): ArrayList<String> {
+        var result =  ArrayList<String>()
+        viewModelScope.launch(Dispatchers.IO) {
+            result = repository.getTokens()
+        }
+        Log.i("debugvm", result.size.toString())
+        return result
+    }
+
+      */
 
     fun addContact(contact: Contact) {
         viewModelScope.launch(Dispatchers.IO) {
