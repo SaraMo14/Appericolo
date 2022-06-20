@@ -1,16 +1,20 @@
-package com.example.appericolo.ui.preferiti.contacts.database
+package com.example  .appericolo.ui.preferiti.contacts.database
 
+import android.util.Log
+import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 
-
 class ContactsFirebase {
+
+
     var database: DatabaseReference =
         FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users/" + Firebase.auth.currentUser?.uid.toString() + "/favContacts")
 
+    var tokens= ArrayList<String>()
 
     fun getFavContacts(): ArrayList<Contact> {
         val favContactList = ArrayList<Contact>()
@@ -30,23 +34,25 @@ class ContactsFirebase {
     fun writeToRemoteDb(contact: Contact){
        database.child(contact.name).setValue(contact.number)
     }
-    /*fun writeToRemoteDb(contact: Contact) {
-        val contactListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (!snapshot.hasChild(contact.name)) {
-                    database.child(contact.name).setValue(contact.number)
+
+    fun getFavContactsTokens(favContacts: ArrayList<Contact>){
+        tokens.clear()
+        database.parent?.parent?.get()?.addOnSuccessListener { users->
+            for (user in users.children){
+                for (favContact in favContacts) {
+                    if (favContact.number == user.child("cell_number").getValue().toString() ||
+                        favContact.number == "+39" + user.child("cell_number").getValue().toString() ||
+                        "+39" + favContact.number == user.child("cell_number").getValue().toString() ) {
+                        Log.i("utente buono", user.child("name").getValue().toString())
+                        tokens.add(user.child("token").getValue().toString())
+
+                    }
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                //vorrei mettere un toast per dire che il contatto già c'è ma non riesco
-            }
         }
-        database.addValueEventListener(contactListener)
-        //database.child(contact.name).setValue(contact.number)
+        Thread
+            .sleep(2000)
     }
-
-     */
 
     fun deleteFromRemoteDb(contact: Contact) {
         database.child(contact.name).removeValue()
