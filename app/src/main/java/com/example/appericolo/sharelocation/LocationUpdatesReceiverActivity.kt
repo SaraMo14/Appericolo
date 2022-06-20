@@ -69,12 +69,13 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
                     binding.textView3.text = lat.toString() + " " + long.toString()
                     currentPosition = LatLng(lat!!, long!!)
 
-                    try{
+                    previousLocationMarker = placeMarkerOnMap(currentPosition, mMap, R.drawable.ic_baseline_directions_walk_24)
+                    /*try{
                         previousLocationMarker?.remove()
                         previousLocationMarker = placeMarkerOnMap(currentPosition, mMap)
                     }catch(e:Exception){
                         Log.d("location", e.toString())
-                    }
+                    }*/
 
                     //se il tempo di arrivo previsto è passato e il client non è nelle vicinanze (200 metri)
                     //della destinazione, allora allerta gli amici con cui sta condividendo
@@ -99,20 +100,14 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
             showDialog("L'utente è arrivato a destinazione sano e salvo!", "Safe arrival")
         }
 
-        Log.d("location", "inside OnCreate")
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        //val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(destination).title("Destinazione"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(destination))
 
-        //
-        //polyline = mMap.addPolyline(PolylineOptions()
-            //.clickable(true))
     }
 
 
@@ -140,43 +135,47 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
 
 
     //ritorna true se il tempo di arrivo previsto è passato, false se non è ancora arrivato
-    private fun isArrivalTimeExpired(time: String): Boolean{
 
-        val sdf = SimpleDateFormat("HH:mm")
-        val time: Date = sdf.parse(time)
+    companion object{
 
-        val timeToMatch = Calendar.getInstance()
-        timeToMatch[Calendar.HOUR_OF_DAY] = time.hours
-        timeToMatch[Calendar.MINUTE] = time.minutes
-        val currentTime = Calendar.getInstance()
 
-        when {
-            currentTime == timeToMatch -> return true// the times are equals
-            currentTime < timeToMatch -> return false// currentTime is before timeToMatch
-            currentTime > timeToMatch -> return true// currentTime is after timeToMatch
-        }
-        return false
-    }
+          fun isArrivalTimeExpired(time: String): Boolean{
 
-    //ritorna true se il client è vicino alla destinazione, false se è lontano
-    private fun isCloseToDestination(currentPosition: LatLng, destination: LatLng?): Boolean {
-        val distance = FloatArray(1)
-        Location.distanceBetween(destination!!.latitude, destination!!.longitude,
-            currentPosition.latitude, currentPosition.longitude, distance)
-        val radiusInMeters = 150.0 //150 Metri
-        if( distance[0] > radiusInMeters ){
-            Toast.makeText(this.applicationContext,
-                "Outside, distance from center: " + distance[0] + " radius: " + radiusInMeters,
-                Toast.LENGTH_LONG).show()
+            val sdf = SimpleDateFormat("HH:mm")
+            val time: Date = sdf.parse(time)
+
+            val timeToMatch = Calendar.getInstance()
+            timeToMatch[Calendar.HOUR_OF_DAY] = time.hours
+            timeToMatch[Calendar.MINUTE] = time.minutes
+            val currentTime = Calendar.getInstance()
+
+            when {
+                currentTime == timeToMatch -> return true// the times are equals
+                currentTime < timeToMatch -> return false// currentTime is before timeToMatch
+                currentTime > timeToMatch -> return true// currentTime is after timeToMatch
+            }
             return false
-        } else {
-            Toast.makeText(this.applicationContext,
-                "Inside, distance from center: " + distance[0] + " radius: " + radiusInMeters ,
-                Toast.LENGTH_LONG).show()
-            return true
+        }
+
+        //ritorna true se il client è vicino alla destinazione, false se è lontano
+         fun isCloseToDestination(currentPosition: LatLng, destination: LatLng?): Boolean {
+            val distance = FloatArray(1)
+            Location.distanceBetween(destination!!.latitude, destination!!.longitude,
+                currentPosition.latitude, currentPosition.longitude, distance)
+            val radiusInMeters = 150.0 //150 Metri
+            if( distance[0] > radiusInMeters ){
+                //Toast.makeText(this.applicationContext,
+                    //"Outside, distance from center: " + distance[0] + " radius: " + radiusInMeters,
+                    //Toast.LENGTH_LONG).show()
+                return false
+            } else {
+               // Toast.makeText(this.applicationContext,
+                    //"Inside, distance from center: " + distance[0] + " radius: " + radiusInMeters ,
+                    //Toast.LENGTH_LONG).show()
+                return true
+            }
         }
     }
-
     private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int=0): Marker {
 
         val markerOptions = MarkerOptions().position(currentLatLng)

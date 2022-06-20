@@ -14,7 +14,6 @@ class FakeCallReceiver : BroadcastReceiver() {
 
     @SuppressLint("InvalidWakeLockTag")
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.i("HELP",  "RECEIVED")
         val service = Intent(context, HeadsUpNotificationService::class.java)
         service.putExtra("reason", intent?.getStringExtra("reason"))
         service.putExtra("timestamp", intent?.getLongExtra("timestamp", 0))

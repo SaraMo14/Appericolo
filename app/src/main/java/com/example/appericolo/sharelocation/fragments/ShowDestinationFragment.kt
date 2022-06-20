@@ -121,34 +121,6 @@ class ShowDestinationFragment : Fragment(), MapsUtil {
 
     }
 
-/*override fun showPlaceOnMap(destinationCoordinates: LatLng, mMap: GoogleMap){
-        placeMarkerOnMap(destinationCoordinates, mMap, 0)
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(destinationCoordinates))
-    }*/
-
-
-
-/*override fun swDestination(){
-    var addressList: List<Address>? = null
-    val geoCoder = Geocoder(this.requireContext())
-    try {
-        addressList = geoCoder.getFromLocationName(destination, 1)
-
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-    try{
-        val address = addressList!![0]
-        val latLng = LatLng(address.latitude, address.longitude)
-
-        placeMarkerOnMap(latLng, mMap)
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-    }catch (e: Exception)
-    {
-        Toast.makeText(this.requireContext(), "Indirizzo non trovato. Tornare indietro e inserire un indirizzo valido", Toast.LENGTH_LONG).show()
-    }
-
-}*/
 override fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int) {
 
     val markerOptions = MarkerOptions().position(currentLatLng)
