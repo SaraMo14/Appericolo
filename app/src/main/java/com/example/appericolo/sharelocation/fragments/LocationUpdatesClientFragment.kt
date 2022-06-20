@@ -17,12 +17,20 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.appericolo.OneTimeObserver
 import com.example.appericolo.R
 import com.example.appericolo.sharelocation.fcm.NotificationData
 import com.example.appericolo.sharelocation.fcm.PushNotification
 import com.example.appericolo.sharelocation.fcm.RetrofitInstance
 import com.example.appericolo.ui.map.MapFragment
+import com.example.appericolo.ui.preferiti.contacts.ContactViewModel
+import com.example.appericolo.ui.preferiti.contacts.FavContactsListAdapter
 import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
 import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
 import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
@@ -34,6 +42,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +63,13 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     private val locationViewModel: LocationViewModel by viewModels {
         LocationViewModelFactory((this.activity?.application as LocationApplication).repository)
     }
+
+    var database: DatabaseReference =
+        FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("users/" + Firebase.auth.currentUser?.uid.toString() + "/favContacts")
+    private lateinit var contactViewModel: ContactViewModel
+
+
 
     companion object{
         var instance: LocationUpdatesClientFragment?=null
@@ -80,9 +99,14 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
             LocationServices.getFusedLocationProviderClient(this.requireContext())
 
 
+
+
+
+
         view.findViewById<FloatingActionButton>(R.id.stop_sharing).setOnClickListener() {
             showSafeArrivalDialog("Vuoi interrompere la condivisione?")
         }
+
 
 
         return view
@@ -116,6 +140,11 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     }
 
     private fun showSafeArrivalDialog(message: String){
+        contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
+
+        contactViewModel.readAllDataFromLocal.observeOnce {
+            //Log.i("LocationUpdates", contactViewModel.readAllDataFromLocal.value?.size.toString())
+        }
 
         val navController = NavHostFragment.findNavController(this)
         val alertDialog: AlertDialog? = activity?.let {
@@ -130,7 +159,37 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
                         val message =
                             FirebaseAuth.getInstance().currentUser!!.email + " è arrivato a destinazione!"
 
+
                         // These registration tokens come from the client FCM SDKs.
+                        database.parent?.parent?.get()?.addOnSuccessListener { users->
+                            for (user in users.children){
+                                Log.i("contatti db remoto2: ", user.child("name").getValue().toString())
+                                for (favContact in contactViewModel.readAllDataFromLocal.value!!) {
+                                    Log.i("contatti in db local2: ", favContact.name.toString())
+                                    if (favContact.number == user.child("cell_number").getValue().toString() ||
+                                        favContact.number == "+39" + user.child("cell_number").getValue().toString() ||
+                                        "+39" + favContact.number == user.child("cell_number").getValue().toString() ) {
+                                        Log.i("contatto buono2", user.child("name").getValue().toString())
+                                        //tokens.add()
+
+                                        val token = user.child("token").getValue().toString()
+                                        //invia notifica al contatto stretto selezionato
+                                        PushNotification(
+                                            NotificationData(title,
+                                                message,
+                                                FirebaseAuth.getInstance().currentUser!!.uid, true, "", 0.0, 0.0),
+                                            token,
+                                            //TOPIC
+                                        ).also {
+                                            sendArrivalNotification(it)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        /*
+                        // These registration tokens come from the client FCM SDKs.
+
                         val recipientsTokens =
                             listOf(//"dCAS80DATU6chvEJ8gXXEp:APA91bFiIRG1rKXDNBn52LV2YZj9wulHqRQD9IdVAtqo31XJ9XUyxpZPGDFkqMke8_bU8GtIudhIGu-MS7oSlGJ_cN2mzCTsNGNK0gBMT5uhGe9f3PWG8xPwCVs0ivplim_Z5Fxu4Fbv",
                             "e3BKqdNETUCRBZMFf_4aeX:APA91bEYB7kPWdN57r0uDJ0tUXdnwRIM3ObArDqZvzP5B_CYZXZT0jXKe9_bSy2vUdpb91sEKCDWPR5fRfvlNzwMk5o0DS_tABTTBIo8YdPYSrRlzmCiNO6jZd2JvdCqNoEayCxQh1jk")
@@ -146,7 +205,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
                                     sendArrivalNotification(it)
                                 }
                             }
-                        }
+                        }*/
 
                         navController.navigate(R.id.action_locationUpdatesClientFragment_to_navigation_dashboard)
                     })
@@ -208,7 +267,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
         locationRequest = LocationRequest.create()
         locationRequest.priority = Priority.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 10000
-        locationRequest.fastestInterval = 1000
+        locationRequest.fastestInterval = 5000 //1000
         locationRequest.smallestDisplacement = 0f//10f
 
     }
@@ -227,5 +286,10 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
             // If the current thread is not the UI thread, the action is posted to the event queue of the UI thread.
             locationViewModel.insertCurrentLocation(lastLocation)
         }
+    }
+
+    fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
+        val observer = OneTimeObserver(handler = onChangeHandler)
+        observe(observer, observer)
     }
 }

@@ -80,7 +80,7 @@ class RegisterActivity : AppCompatActivity() {
                     database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
                     //store registration token
-                    CommonInfo.retrieveAndStoreToken()
+                    //CommonInfo.retrieveAndStoreToken()
                     //
                     startActivity(intent)
                     finish()

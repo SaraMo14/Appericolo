@@ -34,4 +34,8 @@ class LocationRepository(private val locationDao: LocationDao) {
     fun insertCurrentLocation(position: LatLng) {
         locationFirebase.insertCurrentLocation(position)
     }
+
+    suspend fun deleteAllLocations() {
+        locationDao.deleteAll()
+    }
 }

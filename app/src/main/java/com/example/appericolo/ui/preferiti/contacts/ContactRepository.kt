@@ -1,9 +1,9 @@
 package com.example.appericolo.ui.preferiti.contacts
 
-import ContactsFirebase
 import androidx.lifecycle.LiveData
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.example.appericolo.ui.preferiti.contacts.database.ContactRoomDatabase
+import com.example.appericolo.ui.preferiti.contacts.database.ContactsFirebase
 
 class ContactRepository(private val database : ContactRoomDatabase) {
 
@@ -37,5 +37,13 @@ class ContactRepository(private val database : ContactRoomDatabase) {
 
      fun deleteAll(){
         database.contactDao().deleteAll()
+    }
+
+    fun retrieveAndStoreToken(){
+        contactsFirebase.retrieveAndStoreToken()
+    }
+
+    fun clearToken(userUid: String){
+        contactsFirebase.clearToken(userUid)
     }
 }

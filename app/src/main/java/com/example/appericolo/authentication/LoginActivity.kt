@@ -53,7 +53,8 @@ class LoginActivity : AppCompatActivity() {
                             val MoveToMain = Intent(this, MainActivity::class.java)
 
                             // store registration token
-                            CommonInfo.retrieveAndStoreToken()
+                            //CommonInfo.retrieveAndStoreToken()
+                            contactViewModel.retrieveAndStoreToken()
                             //
 
                             startActivity(MoveToMain)

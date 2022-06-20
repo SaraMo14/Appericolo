@@ -69,7 +69,11 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
                     binding.textView3.text = lat.toString() + " " + long.toString()
                     currentPosition = LatLng(lat!!, long!!)
 
-                    previousLocationMarker = placeMarkerOnMap(currentPosition, mMap, R.drawable.ic_baseline_directions_walk_24)
+                    try{
+                        previousLocationMarker = placeMarkerOnMap(currentPosition, mMap, R.drawable.clipart1828626)
+                    }catch(e:Exception){
+                        Log.d("help", "error")
+                    }
                     /*try{
                         previousLocationMarker?.remove()
                         previousLocationMarker = placeMarkerOnMap(currentPosition, mMap)

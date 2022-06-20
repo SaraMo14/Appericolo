@@ -29,11 +29,13 @@ class LocationViewModel(private val repository: LocationRepository) : ViewModel(
         repository.delete(location)
     }
 
+    fun deleteAllLocations() = viewModelScope.launch {
+        repository.deleteAllLocations()
+    }
+
     //firebase query
     fun insertCurrentLocation(lastLocation: android.location.Location){
        //viewModelScope.launch(Dispatchers.IO) {
-               Log.i("help", lastLocation.latitude.toString())
-               Log.i("help", lastLocation.longitude.toString())
                repository.insertCurrentLocation(LatLng(lastLocation.latitude,
                    lastLocation.longitude))
                //delay(5000)

@@ -36,16 +36,13 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-     /*fun getTokens(): ArrayList<String> {
-        var result =  ArrayList<String>()
-        viewModelScope.launch(Dispatchers.IO) {
-            result = repository.getTokens()
-        }
-        Log.i("debugvm", result.size.toString())
-        return result
+    fun retrieveAndStoreToken(){
+        repository.retrieveAndStoreToken()
     }
 
-      */
+    fun clearToken(userUid: String){
+        repository.clearToken(userUid)
+    }
 
     fun addContact(contact: Contact) {
         viewModelScope.launch(Dispatchers.IO) {

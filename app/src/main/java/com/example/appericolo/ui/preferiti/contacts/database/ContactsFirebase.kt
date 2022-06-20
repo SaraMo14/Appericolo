@@ -1,10 +1,12 @@
-package com.example  .appericolo.ui.preferiti.contacts.database
+package com.example.appericolo.ui.preferiti.contacts.database
 
 import android.util.Log
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class ContactsFirebase {
@@ -50,12 +52,35 @@ class ContactsFirebase {
                 }
             }
         }
-        Thread
-            .sleep(2000)
+        Thread.sleep(2000)
     }
 
     fun deleteFromRemoteDb(contact: Contact) {
         database.child(contact.name).removeValue()
+    }
+
+
+
+    fun retrieveAndStoreToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener{
+            if(it.isSuccessful){
+                val token = it.result
+                val userUid= FirebaseAuth.getInstance().currentUser!!.uid
+                FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference("users")
+                    .child(userUid)
+                    .child("token")
+                    .setValue(token)
+            }
+        }
+    }
+
+    fun clearToken(userUid: String){
+        FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("users")
+            .child(userUid)
+            .child("token")
+            .removeValue()
     }
 
 }
