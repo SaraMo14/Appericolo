@@ -5,21 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.appericolo.authentication.LoginActivity
 import com.example.appericolo.databinding.FragmentAccountBinding
 import com.example.appericolo.ui.preferiti.contacts.ContactViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
+import com.example.appericolo.ui.preferiti.luoghi.LocationApplication
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModel
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Fragment che mostra le informazioni sull'account dell'utente
+ */
 class AccountFragment : Fragment() {
 
 
@@ -58,10 +62,9 @@ class AccountFragment : Fragment() {
 
             //delete registration token
             val contactViewModel : ContactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
-
             contactViewModel.clearToken(FirebaseAuth.getInstance().currentUser?.uid.toString())
 
-            //delect saved locations
+            //delete saved locations
             locationViewModel.deleteAllLocations()
             Firebase.auth.signOut()
             val login = Intent(activity?.applicationContext, LoginActivity::class.java)
@@ -73,6 +76,22 @@ class AccountFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        //_binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.show()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
     }
 }

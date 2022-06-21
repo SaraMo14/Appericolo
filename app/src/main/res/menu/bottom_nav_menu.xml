@@ -4,9 +4,8 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_favorite"
-        android:title="@string/title_favorite"
-        android:menuCategory="secondary"/>
-
+        android:menuCategory="secondary"
+        android:title="@string/title_favorite" />
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"

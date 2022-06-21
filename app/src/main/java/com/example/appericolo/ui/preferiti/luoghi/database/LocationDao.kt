@@ -1,7 +1,6 @@
-package com.example.appericolo.ui.preferiti.luoghi.data
+package com.example.appericolo.ui.preferiti.luoghi.database
 
 import androidx.room.*
-import com.example.appericolo.ui.preferiti.luoghi.data.Location
 import kotlinx.coroutines.flow.Flow
 
 @Dao

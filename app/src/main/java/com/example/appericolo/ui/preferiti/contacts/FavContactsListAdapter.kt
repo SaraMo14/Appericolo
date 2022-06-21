@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 
+/**
+ * Adapter per la lista dei contatti stretti selezionati
+ */
 class FavContactsListAdapter: RecyclerView.Adapter<FavContactsListAdapter.MyViewHolder>() {
 
     private lateinit var cListener: onItemClickListener
@@ -48,7 +51,7 @@ class FavContactsListAdapter: RecyclerView.Adapter<FavContactsListAdapter.MyView
         val currentItem = contactsList[position]
         holder.itemView.findViewById<TextView>(R.id.tv_number).text = currentItem.number.toString()
         holder.itemView.findViewById<TextView>(R.id.tv_name).text = currentItem.name
-        holder.itemView.findViewById<ImageView>(R.id.iv_profile).setImageResource(R.drawable.mich)
+        holder.itemView.findViewById<ImageView>(R.id.iv_profile).setImageResource(R.drawable.ic_stat_name)
     }
 
     fun setData(contact: List<Contact>){

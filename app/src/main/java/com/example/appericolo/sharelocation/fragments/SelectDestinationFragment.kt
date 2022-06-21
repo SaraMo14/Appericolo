@@ -13,11 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.example.appericolo.R
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
+import com.example.appericolo.ui.preferiti.luoghi.LocationApplication
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModel
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/**
+ * Fragment per la selezione da parte dell'utente della destinazione da raggiungere
+ */
 
 class SelectDestinationFragment : Fragment() {
     private val locationViewModel: LocationViewModel by viewModels {
@@ -47,7 +50,8 @@ class SelectDestinationFragment : Fragment() {
             return view
         }
 
-
+    //metodo che mostra, mentre si scrive nella textview, i luoghi salvati tra i preferiti; è utile per facilitare e velocizzare
+    //la scelta della destinazione
     private fun setupAutoCompleteTextView() {
         locationViewModel.allLocations.observe(this.requireActivity(), Observer { locations ->
             locations?.let {

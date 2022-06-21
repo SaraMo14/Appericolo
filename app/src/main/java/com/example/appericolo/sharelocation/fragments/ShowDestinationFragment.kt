@@ -33,7 +33,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.IOException
-
+/**
+ * Fragment per mostrare all'utente dove è localizzata la destinazione scelta rispetto alla propria posizione.
+ */
 class ShowDestinationFragment : Fragment(), MapsUtil {
 
 
@@ -115,7 +117,7 @@ class ShowDestinationFragment : Fragment(), MapsUtil {
 
                 MapFragment.lastLocation = it
                 val currentLatLng = LatLng(it.latitude, it.longitude)
-                placeMarkerOnMap(currentLatLng, mMap, R.drawable.clipart1828626)
+                placeMarkerOnMap(currentLatLng, mMap, R.drawable.icons8_street_view_48)
             }
         }
 

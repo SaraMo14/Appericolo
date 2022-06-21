@@ -8,13 +8,18 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import com.example.appericolo.utils.CommonInfo
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.example.appericolo.databinding.ActivityRegisterBinding
+import com.example.appericolo.ui.preferiti.contacts.ContactViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+/**
+ * Classe per la gestione della registrazione di un nuovo utente
+ */
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityRegisterBinding
@@ -80,7 +85,9 @@ class RegisterActivity : AppCompatActivity() {
                     database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
                     //store registration token
-                    //CommonInfo.retrieveAndStoreToken()
+                    val contactViewModel : ContactViewModel = ViewModelProvider(this).get(
+                        ContactViewModel::class.java)
+                    contactViewModel.retrieveAndStoreToken()
                     //
                     startActivity(intent)
                     finish()
@@ -88,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
-                        this@RegisterActivity, "Authentication failed. Please try again.",
+                        this@RegisterActivity, "Autenticazione fallita. Riprova di nuovo.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -100,7 +107,7 @@ class RegisterActivity : AppCompatActivity() {
         val emailText = binding.registerEmail.text.toString()
         if(!Patterns.EMAIL_ADDRESS.matcher(emailText).matches())
         {
-            return "Invalid Email Address"
+            return "Indirizzo email non valido"
         }
         return null
     }
@@ -110,19 +117,19 @@ class RegisterActivity : AppCompatActivity() {
         val passwordText = binding.registerPassword.text.toString()
         if(passwordText.length < 8)
         {
-            return "Minimum 8 Character Password"
+            return "Password di minimo 8 caratteri"
         }
         if(!passwordText.matches(".*[A-Z].*".toRegex()))
         {
-            return "Must Contain 1 Upper-case Character"
+            return "Deve contenere 1 carattere maiuscolo."
         }
         if(!passwordText.matches(".*[a-z].*".toRegex()))
         {
-            return "Must Contain 1 Lower-case Character"
+            return "Deve contenere 1 carattere minuscolo."
         }
         if(!passwordText.matches(".*[@#\$%^&+=].*".toRegex()))
         {
-            return "Must Contain 1 Special Character (@#\$%^&+=)"
+            return "Deve contenere 1 carattere speciale. (@#\$%^&+=)"
         }
 
         return null
@@ -133,11 +140,11 @@ class RegisterActivity : AppCompatActivity() {
         val phoneText = binding.registerCell.text.toString()
         if(!phoneText.matches(".*[0-9].*".toRegex()))
         {
-            return "Must be all Digits"
+            return "Deve contenere solo cifre"
         }
         if(phoneText.length != 10)
         {
-            return "Must be 10 Digits"
+            return "Deve contenere 10 cifre"
         }
         return null
     }
@@ -147,7 +154,7 @@ class RegisterActivity : AppCompatActivity() {
         val nameText = binding.registerName.text.toString()
         if(nameText =="")
         {
-            return "Must insert a name"
+            return "Inserire un nome"
         }
         return null
     }
@@ -157,7 +164,7 @@ class RegisterActivity : AppCompatActivity() {
         val surnameText = binding.registerSurname.text.toString()
         if(surnameText =="")
         {
-            return "Must insert a surname"
+            return "Inserire un cognome"
         }
         return null
     }

@@ -50,7 +50,7 @@
             android:id="@+id/registerSurname"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Surname"
+            android:hint="@string/cognome"
             android:inputType="textEmailAddress"
             android:lines="1" />
 
@@ -74,7 +74,7 @@
             android:id="@+id/registerName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Name"
+            android:hint="@string/nome"
             android:inputType="textEmailAddress"
             android:lines="1" />
 
@@ -129,7 +129,7 @@
             android:id="@+id/registerCell"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/phone_number"
+            android:hint="@string/cellulare"
             android:inputType="number"
             android:lines="1" />
 

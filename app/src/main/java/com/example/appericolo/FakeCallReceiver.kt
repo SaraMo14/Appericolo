@@ -24,22 +24,6 @@ class FakeCallReceiver : BroadcastReceiver() {
         } else {
             context?.startService(service)
         }
-        //context?.startService(service)
-    /*if (intent?.action.equals("com.tester.alarmmanager")) {
-            val pm = context?.getSystemService(POWER_SERVICE) as PowerManager
-            val wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG")
-            wl.acquire()
-            val new_intent = Intent(context, IncomingCallActivity::class.java)
-            new_intent.putExtra("nominativo", intent?.getStringExtra("nominativo"))
-            new_intent.putExtra("cellulare",   intent?.getStringExtra("cellulare"))
-            new_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context?.startActivity(new_intent)
-
-            // Release the lock
-            wl.release();
-        } else if(intent?.action.equals("android.intent.action.BOOT_COMPLETED")){
-            //Log.i("REBOOT",  "reboot")
-        }*/
 
     }
 

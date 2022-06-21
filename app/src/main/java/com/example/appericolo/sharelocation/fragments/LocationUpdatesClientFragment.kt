@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -12,33 +13,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.appericolo.OneTimeObserver
+import com.example.appericolo.utils.OneTimeObserver
 import com.example.appericolo.R
 import com.example.appericolo.sharelocation.fcm.NotificationData
 import com.example.appericolo.sharelocation.fcm.PushNotification
 import com.example.appericolo.sharelocation.fcm.RetrofitInstance
 import com.example.appericolo.ui.map.MapFragment
 import com.example.appericolo.ui.preferiti.contacts.ContactViewModel
-import com.example.appericolo.ui.preferiti.contacts.FavContactsListAdapter
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
+import com.example.appericolo.ui.preferiti.luoghi.LocationApplication
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModel
+import com.example.appericolo.ui.preferiti.luoghi.LocationViewModelFactory
 import com.example.appericolo.utils.MapsUtil
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -50,6 +48,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
+/**
+ * Classe per il monitoraggio della propria posizione da parte dell'utente che condivide
+ */
 
 class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback, MapsUtil {
@@ -118,6 +120,18 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this.requireContext(), R.raw.home_map_style))
+            if (!success) {
+                Log.e("style", "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e("style", "Can't find style.", e)
+        }
         showCurrentLocation()
         //mostra destinazione su mappa
         showPlaceOnMap(coordinate, mMap)
@@ -133,16 +147,18 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
                 MapFragment.lastLocation = it
                 val currentLatLng = LatLng(it.latitude, it.longitude)
-                placeMarkerOnMap(currentLatLng, mMap, R.drawable.clipart1828626) //marker della persona posizionato all'inizio del percorso
+                placeMarkerOnMap(currentLatLng, mMap, R.drawable.icons8_street_view_48) //marker della persona posizionato all'inizio del percorso
             }
         }
 
     }
 
+    //metodo per il display di un dialog quando l'utente vuole interrompere la condivisione;
+    //Se l'utente decide di interrompere, i contatti stretti ricevono una notifica
     private fun showSafeArrivalDialog(message: String){
         contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
 
-        contactViewModel.readAllDataFromLocal.observeOnce {
+        contactViewModel.readAllData.observeOnce {
             //Log.i("LocationUpdates", contactViewModel.readAllDataFromLocal.value?.size.toString())
         }
 
@@ -163,13 +179,13 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
                         // These registration tokens come from the client FCM SDKs.
                         database.parent?.parent?.get()?.addOnSuccessListener { users->
                             for (user in users.children){
-                                Log.i("contatti db remoto2: ", user.child("name").getValue().toString())
-                                for (favContact in contactViewModel.readAllDataFromLocal.value!!) {
-                                    Log.i("contatti in db local2: ", favContact.name.toString())
+                                //Log.i("contatti db remoto2: ", user.child("name").getValue().toString())
+                                for (favContact in contactViewModel.readAllData.value!!) {
+                                    //Log.i("contatti in db local2: ", favContact.name.toString())
                                     if (favContact.number == user.child("cell_number").getValue().toString() ||
                                         favContact.number == "+39" + user.child("cell_number").getValue().toString() ||
                                         "+39" + favContact.number == user.child("cell_number").getValue().toString() ) {
-                                        Log.i("contatto buono2", user.child("name").getValue().toString())
+                                        //Log.i("contatto buono2", user.child("name").getValue().toString())
                                         //tokens.add()
 
                                         val token = user.child("token").getValue().toString()
@@ -239,7 +255,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
 
 
-    //Invia notifica quando l'utente client è arrivato
+    //Metodo che invia una notifica ai contatti stretti quando l'utente che condivide la propria posizione è arrivato
     private fun sendArrivalNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try{
             val response = RetrofitInstance.api.postNotification(notification)
@@ -278,6 +294,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
         return PendingIntent.getBroadcast(this.activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT )
     }
 
+    //metodo per l'aggiornamento continuo della posizione dell'utente in movimento sul database real-time
      fun updateFirebaseLocation(lastLocation: android.location.Location){
         this.activity?.runOnUiThread{
 
@@ -288,8 +305,28 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
+    //metodo che definisce un One Time Observer per i LiveData
     fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
         val observer = OneTimeObserver(handler = onChangeHandler)
         observe(observer, observer)
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar!!.show()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
+
 }

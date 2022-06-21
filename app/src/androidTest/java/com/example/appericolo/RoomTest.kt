@@ -1,19 +1,16 @@
 package com.example.appericolo
 
 import android.content.Context
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.example.appericolo.ui.preferiti.contacts.database.ContactDao
 import com.example.appericolo.ui.preferiti.contacts.database.ContactRoomDatabase
+import com.example.appericolo.utils.OneTimeObserver
 import junit.framework.TestCase
-import kotlinx.coroutines.runBlocking
-import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

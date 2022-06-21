@@ -13,6 +13,9 @@ import com.example.appericolo.ui.preferiti.contacts.ContactViewModel
 import com.example.appericolo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * Classe per la gestione del login dell'utente
+ */
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
@@ -21,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         // to keep the user logged
@@ -44,16 +48,13 @@ class LoginActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            //poi cambiare
 
-                            var contactViewModel : ContactViewModel
-                            contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
+                            val contactViewModel : ContactViewModel= ViewModelProvider(this).get(ContactViewModel::class.java)
                             contactViewModel.deleteAll()
                             contactViewModel.putFavFromRemoteToLocal()
                             val MoveToMain = Intent(this, MainActivity::class.java)
 
-                            // store registration token
-                            //CommonInfo.retrieveAndStoreToken()
+                            // salvataggio registration token
                             contactViewModel.retrieveAndStoreToken()
                             //
 
@@ -61,11 +62,11 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         } else Toast.makeText(
                             this,
-                            "Please insert correct username and password.",
+                            "Inserire correttamente email e password.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-            } else Toast.makeText(this, "Please fill the fields.", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(this, "Compilare i campi.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -73,17 +74,5 @@ class LoginActivity : AppCompatActivity() {
         return email != "" && password != ""
     }
 
-    //for fcm
-    /*private fun retrieveAndStoreToken(){
-        FirebaseMessaging.getInstance().token.addOnCompleteListener{
-            if(it.isSuccessful){
-                val token = it.result
-                val userUid= FirebaseAuth.getInstance().currentUser!!.uid
-                //tokens/userUid/
-                FirebaseDatabase.getInstance().getReference("tokens")
-                    .child(userUid)
-                    .setValue(token)
-            }
-        }
-    }*/
+
 }

@@ -1,4 +1,4 @@
-package com.example.appericolo.ui.preferiti.luoghi.data
+package com.example.appericolo.ui.preferiti.luoghi.database
 
 import android.content.Context
 import androidx.room.Database
@@ -9,6 +9,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Database locale per la gestione dei luoghi preferiti dell'utente
+ */
 @Database(entities = [Location::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun locationDao(): LocationDao
@@ -61,12 +64,10 @@ abstract class AppDatabase : RoomDatabase() {
          * If you want to start with more words, just add them.
          */
         suspend fun populateDatabase(locationDao: LocationDao) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
             locationDao.deleteAll()
 
-            var location = Location(0, "Via Brecce Bianche", "000000", "000000")
-            locationDao.insert(location)
+            //var location = Location(0, "Via Brecce Bianche", "000000", "000000")
+            //locationDao.insert(location)
 
         }
     }

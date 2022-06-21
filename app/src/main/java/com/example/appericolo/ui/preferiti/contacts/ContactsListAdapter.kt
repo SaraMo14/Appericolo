@@ -8,7 +8,9 @@ import android.widget.*
 import com.example.appericolo.R
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 
-
+/**
+ * Adapter per la lista dei contatti in rubrica
+ */
 class ContactsListAdapter(private val context: Context, private val dataSource: ArrayList<Contact>) : BaseAdapter() {
 
     private var contactList = emptyList<Contact>()
@@ -51,14 +53,14 @@ class ContactsListAdapter(private val context: Context, private val dataSource: 
 
 // 3
 
-        contactImage.setImageResource(R.drawable.mich)
+        contactImage.setImageResource(R.drawable.ic_stat_name)
 
         return rowView
     }
 
-    fun setData(contact: List<Contact>){
+    /*fun setData(contact: List<Contact>){
         this.contactList = contact
         notifyDataSetChanged()
-    }
+    }*/
 
 }

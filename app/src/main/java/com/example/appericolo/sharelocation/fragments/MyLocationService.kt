@@ -1,21 +1,13 @@
 package com.example.appericolo.sharelocation.fragments
 
-import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.IBinder
-import android.util.Log
-import android.widget.Toast
-import androidx.fragment.app.viewModels
-import com.example.appericolo.MainActivity
-import com.example.appericolo.sharelocation.fragments.LocationUpdatesClientFragment.Companion.instance
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
 import com.google.android.gms.location.LocationResult
 import java.lang.Exception
-
+/**
+ * Classe per la gestione degli aggiornamenti sulla posizione dell'utente e il relativo aggiornamento del database real-time
+ */
 class MyLocationService : BroadcastReceiver() {
 
     companion object{
@@ -31,13 +23,11 @@ class MyLocationService : BroadcastReceiver() {
                 val result = LocationResult.extractResult(intent!!)
                 if(result!= null){
                     val location = result.lastLocation
-                    //val location_string = StringBuilder(location?.latitude.toString()).append("/").append(location?.longitude.toString()).toString()
                     try{
                         if (location != null) {
                             LocationUpdatesClientFragment.getLocationUpdatesClientFragmentInstance().updateFirebaseLocation(location)
                         }
                     }catch (e: Exception){
-                        //if app is in killed mode
                         //Toast.makeText(context, location.toString(), Toast.LENGTH_LONG).show()
                     }
                 }

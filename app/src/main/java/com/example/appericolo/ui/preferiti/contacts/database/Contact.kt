@@ -3,6 +3,10 @@ package com.example.appericolo.ui.preferiti.contacts.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
+/**
+ * Classe che modella un contatto telefonico dell'utente
+ */
 @Entity(tableName = "contacts_table")
 
  class Contact {

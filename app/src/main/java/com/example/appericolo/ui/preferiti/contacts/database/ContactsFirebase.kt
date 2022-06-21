@@ -8,6 +8,9 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 
+/**
+ * Classe per la gestione dei contatti stretti associati ad un utente su firebase
+ */
 
 class ContactsFirebase {
 
@@ -37,7 +40,7 @@ class ContactsFirebase {
        database.child(contact.name).setValue(contact.number)
     }
 
-    fun getFavContactsTokens(favContacts: ArrayList<Contact>){
+    /*fun getFavContactsTokens(favContacts: ArrayList<Contact>){
         tokens.clear()
         database.parent?.parent?.get()?.addOnSuccessListener { users->
             for (user in users.children){
@@ -53,7 +56,7 @@ class ContactsFirebase {
             }
         }
         Thread.sleep(2000)
-    }
+    }*/
 
     fun deleteFromRemoteDb(contact: Contact) {
         database.child(contact.name).removeValue()
@@ -61,6 +64,7 @@ class ContactsFirebase {
 
 
 
+    //metodo per memorizzare il registration token di un utente su db realtime
     fun retrieveAndStoreToken(){
         FirebaseMessaging.getInstance().token.addOnCompleteListener{
             if(it.isSuccessful){
@@ -74,7 +78,7 @@ class ContactsFirebase {
             }
         }
     }
-
+    //metodo per eliminare il registration token di un utente su db realtime
     fun clearToken(userUid: String){
         FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users")

@@ -24,7 +24,9 @@ import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * Activity che mostra al contatto stretto, la posizione in tempo reale dell'utente che sta condividendo.
+ */
 class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
@@ -45,7 +47,6 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
         val destinationLong = intent.getStringExtra("destinationLong")?.toDouble()
         destination = LatLng(destinationLat!!, destinationLong!!)
 
-        var previousLocationMarker: Marker? = null
 
 
 
@@ -57,6 +58,10 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
 
         val fireBase = FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/").getReference(
             "users/" + senderUid+ "/position")
+
+        //listener delle coordinate della posizione dell'utente che condivide (client)
+        //ad ogni aggiornamento, si verifica si aggiunge un marker sulla mappa e si verifica se
+        //il tempo di arrivo previsto è passato e se l'utente è  nei pressi della destinazione
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -66,13 +71,12 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
                     //currentPosition = LatLng(lat!!, long!!)
                     Log.d("location", lat.toString())
                     Log.d("location", long.toString())
-                    binding.textView3.text = lat.toString() + " " + long.toString()
                     currentPosition = LatLng(lat!!, long!!)
 
                     try{
-                        previousLocationMarker = placeMarkerOnMap(currentPosition, mMap, R.drawable.clipart1828626)
+                        placeMarkerOnMap(currentPosition, mMap, R.drawable.icons8_walking_24)
                     }catch(e:Exception){
-                        Log.d("help", "error")
+                        Log.d("LocationUpdatesReceiver", "error")
                     }
                     /*try{
                         previousLocationMarker?.remove()
@@ -108,7 +112,6 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.addMarker(MarkerOptions().position(destination).title("Destinazione"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(destination))
 
@@ -138,11 +141,11 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
 
 
 
-    //ritorna true se il tempo di arrivo previsto è passato, false se non è ancora arrivato
+
 
     companion object{
 
-
+        //metodo che ritorna true se il tempo di arrivo previsto è passato, false se non è ancora arrivato
           fun isArrivalTimeExpired(time: String): Boolean{
 
             val sdf = SimpleDateFormat("HH:mm")
@@ -161,7 +164,7 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
             return false
         }
 
-        //ritorna true se il client è vicino alla destinazione, false se è lontano
+        //metodo che ritorna true se il client è vicino alla destinazione (nel raggio di 150 m), false se è lontano
          fun isCloseToDestination(currentPosition: LatLng, destination: LatLng?): Boolean {
             val distance = FloatArray(1)
             Location.distanceBetween(destination!!.latitude, destination!!.longitude,
@@ -180,6 +183,8 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
             }
         }
     }
+
+
     private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap, markerIconId: Int=0): Marker {
 
         val markerOptions = MarkerOptions().position(currentLatLng)

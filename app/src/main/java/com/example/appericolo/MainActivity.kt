@@ -2,36 +2,21 @@
 package com.example.appericolo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
 import com.example.appericolo.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.messaging.FirebaseMessaging
-import java.util.*
-
-
-//const val TOPIC = "/topics/myTopic"
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val locationViewModel: LocationViewModel by viewModels {
-        LocationViewModelFactory((this.application as LocationApplication).repository)
 
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +25,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        // Subscribe the devices corresponding to the registration tokens to the topic.
-        /*FirebaseService.sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE)
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
-            if(result != null){
-                FirebaseService.token = result
-                Toast.makeText(this, "Server Token $result", Toast.LENGTH_LONG).show()
-            }
-        }*/
 
 
         val navView: BottomNavigationView = binding.navView
@@ -82,6 +59,17 @@ class MainActivity : AppCompatActivity() {
             )
         )
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onBackPressed() {
+        val currentFragment =
+            findNavController(R.id.nav_host_fragment_activity_main).currentDestination?.id
+        if (currentFragment == R.id.locationUpdatesClientFragment) {
+            //se l'utente sta condividendo la posizione, non può usare il back button ma deve
+                //prima interrompere la condivisione
+            return
+        }
+        super.onBackPressed()
     }
 }
 

@@ -1,25 +1,20 @@
-package com.example.appericolo.ui.preferiti.luoghi.data
+package com.example.appericolo.ui.preferiti.luoghi
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.appericolo.ui.map.MapFragment
+import com.example.appericolo.ui.preferiti.luoghi.database.Location
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LocationViewModel(private val repository: LocationRepository) : ViewModel() {
 
-    // Using LiveData and caching what allWords returns has several benefits:
+    // Using LiveData and caching what allLocations returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
 
     val allLocations: LiveData<List<Location>> = repository.allLocations.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
+
     fun insert(location: Location) = viewModelScope.launch {
         repository.insert(location)
     }
@@ -35,10 +30,8 @@ class LocationViewModel(private val repository: LocationRepository) : ViewModel(
 
     //firebase query
     fun insertCurrentLocation(lastLocation: android.location.Location){
-       //viewModelScope.launch(Dispatchers.IO) {
-               repository.insertCurrentLocation(LatLng(lastLocation.latitude,
+       repository.insertCurrentLocation(LatLng(lastLocation.latitude,
                    lastLocation.longitude))
-               //delay(5000)
 
            //}
        }

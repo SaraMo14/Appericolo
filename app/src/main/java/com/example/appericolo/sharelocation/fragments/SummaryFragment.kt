@@ -29,19 +29,21 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment per mostrare all'utente il riepilogo dei dati sul viaggio selezionato
+ */
 class SummaryFragment : Fragment() {
 
     var database: DatabaseReference =
         FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users/" + Firebase.auth.currentUser?.uid.toString() + "/favContacts")
-    //lateinit var contactViewModel: ContactViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
 
-        // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_summary, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.favcontactlist)
         val adapter = ListAdapter()
@@ -50,7 +52,7 @@ class SummaryFragment : Fragment() {
 
         var contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
 
-        contactViewModel.readAllDataFromLocal.observe(viewLifecycleOwner, Observer { contact->
+        contactViewModel.readAllData.observe(viewLifecycleOwner, Observer { contact->
             adapter.setData(contact)
         })
 
@@ -64,23 +66,22 @@ class SummaryFragment : Fragment() {
 
         view.findViewById<Button>(R.id.confermaButton).setOnClickListener{
 
-            //data
+            //dati
             val title = "Appericolo"
             val message = FirebaseAuth.getInstance().currentUser!!.email + " sta condividendo la sua posizione con te"
 
-           // contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
-
-            // These registration tokens come from the client FCM SDKs.
+            //in base ai contatti stretti selezionati in precedenza, si individua, per coloro che possiedono l'app,
+            // il relativo registration token su firebase.
+            //Sulla base del token viene inviata la notifica di inizio condivisione
             database.parent?.parent?.get()?.addOnSuccessListener { users->
                 for (user in users.children){
-                    Log.i("contatti db remoto: ", user.child("name").getValue().toString())
-                    for (favContact in contactViewModel.readAllDataFromLocal.value!!) {
-                        Log.i("contatti in db locale: ", favContact.name.toString())
+                    //Log.i("contatti db remoto: ", user.child("name").getValue().toString())
+                    for (favContact in contactViewModel.readAllData.value!!) {
+                        //Log.i("contatti in db locale: ", favContact.name.toString())
                         if (favContact.number == user.child("cell_number").getValue().toString() ||
                             favContact.number == "+39" + user.child("cell_number").getValue().toString() ||
                             "+39" + favContact.number == user.child("cell_number").getValue().toString() ) {
-                            Log.i("contatto buono", user.child("name").getValue().toString())
-                            //tokens.add()
+                            //Log.i("contatto buono", user.child("name").getValue().toString())
 
                             val token = user.child("token").getValue().toString()
                             //invia notifica al contatto stretto selezionato
@@ -93,7 +94,6 @@ class SummaryFragment : Fragment() {
                                     coordinate?.latitude!!,
                                     coordinate?.longitude),
                                 token
-                                //TOPIC
                             ).also {
                                 sendDepartureNotification(it)
                             }
@@ -101,26 +101,7 @@ class SummaryFragment : Fragment() {
                     }
                 }
             }
-           /* val recipientsTokens =
-                listOf(//"dCAS80DATU6chvEJ8gXXEp:APA91bFiIRG1rKXDNBn52LV2YZj9wulHqRQD9IdVAtqo31XJ9XUyxpZPGDFkqMke8_bU8GtIudhIGu-MS7oSlGJ_cN2mzCTsNGNK0gBMT5uhGe9f3PWG8xPwCVs0ivplim_Z5Fxu4Fbv",
-                    "e3BKqdNETUCRBZMFf_4aeX:APA91bEYB7kPWdN57r0uDJ0tUXdnwRIM3ObArDqZvzP5B_CYZXZT0jXKe9_bSy2vUdpb91sEKCDWPR5fRfvlNzwMk5o0DS_tABTTBIo8YdPYSrRlzmCiNO6jZd2JvdCqNoEayCxQh1jk")
-            if (title.isNotEmpty() && message.isNotEmpty() && recipientsTokens.isNotEmpty()) {
-                for (token in recipientsTokens) {
-                    PushNotification(
-                        NotificationData(title,
-                            message,
-                            FirebaseAuth.getInstance().currentUser!!.uid,
-                            false,
-                            orarioArrivo.toString(),
-                            coordinate?.latitude!!,
-                            coordinate?.longitude),
-                        token
-                        //TOPIC
-                    ).also {
-                        sendDepartureNotification(it)
-                    }
-                }
-            }*/
+
 
             val bundle = bundleOf("indirizzo" to indirizzo, "coordinate" to coordinate, "orarioArrivo" to orarioArrivo )
             val navController = NavHostFragment.findNavController(this)
@@ -157,7 +138,7 @@ class SummaryFragment : Fragment() {
             val currentItem = contactsList[position]
             holder.itemView.findViewById<TextView>(R.id.tv_number).text = currentItem.number.toString()
             holder.itemView.findViewById<TextView>(R.id.tv_name).text = currentItem.name
-            holder.itemView.findViewById<ImageView>(R.id.iv_profile).setImageResource(R.drawable.mich)
+            holder.itemView.findViewById<ImageView>(R.id.iv_profile).setImageResource(R.drawable.ic_stat_name)
         }
 
         fun setData(contact: List<Contact>){

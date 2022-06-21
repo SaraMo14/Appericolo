@@ -14,14 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
-import com.example.appericolo.ui.preferiti.luoghi.data.Location
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationApplication
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModel
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationViewModelFactory
-import com.example.appericolo.ui.preferiti.luoghi.data.*
+import com.example.appericolo.ui.preferiti.luoghi.database.Location
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
+/**
+ * Fragment contenuto nel tab 2 delle preferenze dell'utente. Esso consente all'utente di aggiungere, eliminare e visualizzare
+ * i luoghi preferiti (destinazioni tipiche dell'utente)
+ */
 class ListaLuoghiFragment : Fragment(), LocationListAdapter.RowClickListener {
     private val newLocationActivityRequestCode = 1
     private val locationViewModel: LocationViewModel by viewModels {
@@ -88,7 +87,19 @@ class ListaLuoghiFragment : Fragment(), LocationListAdapter.RowClickListener {
     }
 
     override fun onItemClickListener(location: Location) {
-        return
+        //return
+        val alertDialog: AlertDialog.Builder = AlertDialog.Builder(this.requireContext())
+        alertDialog.setTitle("Elimina luogo")
+        alertDialog.setMessage("Sei sicuro di voler eliminare il luogo dalla lista dei preferiti?")
+        alertDialog.setPositiveButton("ELIMINA",
+            DialogInterface.OnClickListener { dialog, which -> locationViewModel.delete(location) })
+        alertDialog.setNegativeButton("ANNULLA",
+            DialogInterface.OnClickListener { dialog, which -> dialog.cancel()
+            })
+
+        val dialog: AlertDialog = alertDialog.create()
+        dialog.show()
+
     }
 
 }

@@ -8,7 +8,9 @@ import com.example.appericolo.FakeCallReceiver
 import java.util.*
 
 
-//This utility class will helps us to send notification by calling setNotification()
+/**
+ * Utility class di supporto alla creazione della notifica di ricezione della chiamata fake
+ */
 class NotificationUtils {
 
 

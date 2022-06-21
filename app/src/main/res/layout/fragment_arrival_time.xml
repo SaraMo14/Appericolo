@@ -10,9 +10,9 @@
         android:id="@+id/textView"
         android:layout_width="327dp"
         android:layout_height="0dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="24dp"
         android:text="@string/select_arrival_time"
-        android:textSize="34sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,10 +44,10 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/estimatedArrivalTime"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.931"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
         tools:ignore="SpeakableTextPresentCheck" />
 

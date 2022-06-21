@@ -21,6 +21,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.String
 import java.util.*
 
+/**
+ * Fragment per la definizione di un orario stimato di arrivo per il viaggio da parte dell'utente
+ */
 class ArrivalTimeFragment : Fragment() {
 
     private var hour: Int = 0
@@ -31,7 +34,6 @@ class ArrivalTimeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_arrival_time, container, false)
         val indirizzo = arguments?.getString("indirizzo").toString()
         val coordinate: LatLng? = arguments?.getParcelable("coordinate")
@@ -82,10 +84,9 @@ class ArrivalTimeFragment : Fragment() {
                     minute)
             }
 
-        // int style = AlertDialog.THEME_HOLO_DARK;
         val timePickerDialog =
             TimePickerDialog(this.context,  /*style,*/onTimeSetListener, hour, minute, true)
-        timePickerDialog.setTitle("Select Time")
+        timePickerDialog.setTitle("Seleziona orario")
         timePickerDialog.show()
     }
 

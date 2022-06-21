@@ -15,20 +15,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/**
+ * Fragment contenuto nel tab 1 delle preferenze dell'utente. Esso consente all'utente di aggiungere, eliminare e visualizzare
+ * i contatti stretti
+ */
 class ContattiFragment : Fragment() {
     lateinit var  contactViewModel: ContactViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        Log.i("ContattiFragment", "dentro")
-        // Inflate the layout for this fragment
+        //Log.i("ContattiFragment", "dentro")
+
         val view = inflater.inflate(R.layout.fragment_contatti, container, false)
 
         val adapter = FavContactsListAdapter()
@@ -60,20 +60,14 @@ class ContattiFragment : Fragment() {
             }
 
         })
-        //in teoria da togliere
+       /* //in teoria da togliere
         contactViewModel.tokens.observe(viewLifecycleOwner, Observer(){
             Log.i("treno", it.size.toString())
-        })
-
+        })*/
+        //per aggiungere un nuovo contatto:
         view.findViewById<FloatingActionButton>(R.id.addFavContFAB).setOnClickListener{
             val intent = Intent(this.requireContext(), NewContactActivity::class.java)
             startActivity(intent)
-
-
-            //contactViewModel.getTokens()
-
-
-            //contactViewModel.getTokens().size.toString()
 
         }
         return view

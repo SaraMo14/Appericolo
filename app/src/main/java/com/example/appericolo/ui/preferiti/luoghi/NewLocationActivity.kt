@@ -31,13 +31,14 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import java.io.IOException
 
-
+/**
+ * Activity per l'aggiunta di un nuovo luogo preferito da parte dell'utente
+ */
 class NewLocationActivity() : FragmentActivity(), OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private var mMap: GoogleMap? = null
     internal lateinit var address: Address
-    internal var mCurrLocationMarker: Marker? = null
     internal var mGoogleApiClient: GoogleApiClient? = null
     internal lateinit var mLocationRequest: LocationRequest
 
@@ -58,8 +59,8 @@ class NewLocationActivity() : FragmentActivity(), OnMapReadyCallback, LocationLi
         button.setOnClickListener {
             if (TextUtils.isEmpty(findViewById<EditText>(R.id.edit_indirizzo).text)) {
                 Toast.makeText(applicationContext,"Inserire luogo",Toast.LENGTH_SHORT).show()
-            //setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
+                //se l'utente ha inserito correttamente l'indirizzo, esso viene inserito nella Lista Luoghi
                 val replyIntent = Intent()
                 replyIntent.putExtra(EXTRA_REPLY, 1)
                 replyIntent.putExtra("indirizzo",
@@ -118,6 +119,7 @@ class NewLocationActivity() : FragmentActivity(), OnMapReadyCallback, LocationLi
 
     }
 
+    //metodo per cercare le coordinate di un indirizzo inserito nell'edittext
      fun searchLocation(view: View) {
         val locationSearch:EditText = findViewById<EditText>(R.id.edit_indirizzo)
         var location: String = locationSearch.text.toString()
@@ -141,7 +143,7 @@ class NewLocationActivity() : FragmentActivity(), OnMapReadyCallback, LocationLi
             mMap!!.addMarker(MarkerOptions().position(latLng).title(location))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
             //mMap!!.animateCamera(CameraUpdateFactory.zoomTo(6f))
-            Toast.makeText(this.applicationContext, address.latitude.toString() + " " + address.longitude, Toast.LENGTH_LONG).show()
+            //Toast.makeText(this.applicationContext, address.latitude.toString() + " " + address.longitude, Toast.LENGTH_LONG).show()
 
         }
     }

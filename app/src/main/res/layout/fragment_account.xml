@@ -11,15 +11,14 @@
         android:id="@+id/tv_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Profile Information"
-        android:textStyle="bold"
-        android:textSize="26sp"
-        android:textColor="#000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="24dp"
-        />
+        android:text="Profilo"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ScrollView
@@ -47,9 +46,9 @@
                 app:layout_constraintWidth_percent="0.7">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="165dp"
-                    android:src="@drawable/ic_user" />
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:src="@drawable/ic_baseline_person_24" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:textColorHint="#808080"
-                app:helperText="First Name"
+                app:helperText="@string/nome"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_image"
@@ -72,9 +71,9 @@
                     android:background="#00000000"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textColorHint="#808080"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -83,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="#808080"
-                app:helperText="Last Name"
+                app:helperText="@string/cognome"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_first_name"
@@ -96,9 +95,9 @@
                     android:background="#00000000"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textColorHint="#808080"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -107,7 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="#808080"
-                app:helperText="Email Address"
+                app:helperText="@string/email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_last_name"
@@ -122,9 +121,10 @@
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp"
                     android:padding="10dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textColorHint="#808080"
-                    android:textSize="15sp" />
+                    android:textSize="20sp"
+                    tools:ignore="SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -133,7 +133,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColorHint="#808080"
-                app:helperText="Contact No"
+                app:helperText="@string/cellulare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_email"
@@ -148,9 +148,9 @@
                     android:inputType="phone"
                     android:minHeight="48dp"
                     android:padding="10dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textColorHint="#808080"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

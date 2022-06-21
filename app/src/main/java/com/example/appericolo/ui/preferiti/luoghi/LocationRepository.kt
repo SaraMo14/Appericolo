@@ -1,9 +1,9 @@
-package com.example.appericolo.ui.preferiti.luoghi.data
+package com.example.appericolo.ui.preferiti.luoghi
 
 import androidx.annotation.WorkerThread
-import com.example.appericolo.ui.preferiti.luoghi.data.Location
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationDao
-import com.example.appericolo.ui.preferiti.luoghi.data.LocationFirebase
+import com.example.appericolo.ui.preferiti.luoghi.database.Location
+import com.example.appericolo.ui.preferiti.luoghi.database.LocationDao
+import com.example.appericolo.ui.preferiti.luoghi.database.LocationFirebase
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.Flow
 
@@ -16,9 +16,7 @@ class LocationRepository(private val locationDao: LocationDao) {
     val allLocations: Flow<List<Location>> = locationDao.getAll()
     val locationFirebase= LocationFirebase()
 
-    // By default Room runs suspend queries off the main thread, therefore, we don't need to
-    // implement anything else to ensure we're not doing long running database work
-    // off the main thread.
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(location: Location) {

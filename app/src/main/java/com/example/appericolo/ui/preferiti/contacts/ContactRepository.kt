@@ -10,13 +10,14 @@ class ContactRepository(private val database : ContactRoomDatabase) {
     var contactsFirebase = ContactsFirebase()
     var allFavContacts: LiveData<List<Contact>> = database.contactDao().getAllContacts()
 
-     fun getTokens(): ArrayList<String>{
+     /*fun getTokens(): ArrayList<String>{
         //val result = contactsFirebase.getFavContactsTokens(allFavContacts.value as ArrayList<Contact>)
         contactsFirebase.getFavContactsTokens(allFavContacts.value as ArrayList<Contact>)
             //Log.i("debug", result.size.toString() )
         return contactsFirebase.tokens
-    }
+    }*/
 
+    //metodo per inserimento dei contatti stretti di un utente dal db remoto al db locale
      fun putFavFromRemoteToLocal(){
         var list = contactsFirebase.getFavContacts()
 

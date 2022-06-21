@@ -1,4 +1,4 @@
-package com.example.appericolo.ui.preferiti.luoghi.data
+package com.example.appericolo.ui.preferiti.luoghi.database
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DatabaseReference

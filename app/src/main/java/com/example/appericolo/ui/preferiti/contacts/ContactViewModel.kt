@@ -10,25 +10,21 @@ import kotlinx.coroutines.launch
 class ContactViewModel(application: Application) : AndroidViewModel(application) {
 
     val readAllData: LiveData<List<Contact>>
-    val readAllDataFromLocal: LiveData<List<Contact>>
+    // readAllDataFromLocal: LiveData<List<Contact>>
     private val repository: ContactRepository
 
 
     init {
         repository = ContactRepository(ContactRoomDatabase.getDatabase(application))
         readAllData = repository.allFavContacts
-        readAllDataFromLocal = repository.allFavContacts
+        //readAllDataFromLocal = repository.allFavContacts
 
     }
     private val _tokens = MutableLiveData<ArrayList<String>>()
 
-    val tokens : LiveData<ArrayList<String>> = _tokens
+    //val tokens : LiveData<ArrayList<String>> = _tokens
 
-    fun getTokens(){
-        viewModelScope.launch {
-            _tokens.value = repository.getTokens()
-        }
-    }
+
 
     fun putFavFromRemoteToLocal(){
         viewModelScope.launch(Dispatchers.IO){

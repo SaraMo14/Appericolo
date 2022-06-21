@@ -76,7 +76,6 @@ class InfoFakeCallActivity : AppCompatActivity() {
 
         binding.callName.addTextChangedListener(watcher)
         binding.callTime.addTextChangedListener(watcher)
-        //binding.callDate.addTextChangedListener(watcher)
 
 
         binding.scheduleCallButton.setOnClickListener{
@@ -158,7 +157,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
                 }
             //set title for alert dialog
             builder.setTitle(R.string.dialogTitle)
-            builder.setIcon(android.R.drawable.ic_dialog_dialer)
+            builder.setIcon(R.drawable.ic_baseline_info_24)
             }
                 // Create the AlertDialog
                 val alertDialog: AlertDialog = builder.create()

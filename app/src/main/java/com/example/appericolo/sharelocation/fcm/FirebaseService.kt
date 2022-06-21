@@ -17,6 +17,9 @@ import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.content.Context
 import com.example.appericolo.sharelocation.LocationUpdatesReceiverActivity
 
+/**
+ * Classe per gestire la ricezione dei messaggi da Firebase Cloud Messaging.
+ */
 private const val CHANNEL_ID = "my_channel"
 
 class FirebaseService : FirebaseMessagingService() {
@@ -45,7 +48,7 @@ class FirebaseService : FirebaseMessagingService() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
-            .setSmallIcon(R.drawable.ic_android_black_24dp)
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()

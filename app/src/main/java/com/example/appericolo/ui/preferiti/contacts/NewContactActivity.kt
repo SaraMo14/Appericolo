@@ -17,6 +17,9 @@ import com.example.appericolo.R
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import kotlin.collections.ArrayList
 
+/**
+ * Activity per l'aggiunta di un nuovo contatto alla lista dei contatti più stretti
+ */
 class NewContactActivity : AppCompatActivity() {
     private lateinit var contactViewModel: ContactViewModel
     var cols = listOf<String>(
@@ -102,14 +105,14 @@ class NewContactActivity : AppCompatActivity() {
         contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
         lv.setOnItemClickListener { parent,_, position, _ ->
             var selectedItem = parent.getItemAtPosition(position) as Contact
-            Toast.makeText(this, selectedItem.name+selectedItem.number, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, selectedItem.name+selectedItem.number, Toast.LENGTH_SHORT).show()
             val builder = AlertDialog.Builder(this)
-            builder.setMessage("Are you sure you want to add "+  selectedItem.name + " to your favourite contacts list?")
+            builder.setMessage("Sei sicuro di voler aggiungere "+  selectedItem.name + " alla lista dei contatti stretti?")
                 .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
+                .setPositiveButton("Sì") { dialog, id ->
                     var contact = Contact(selectedItem.number, selectedItem.name)
                     contactViewModel.addContact(contact)
-                    Toast.makeText(this,"Aggiunto al db", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Contatto aggiunto", Toast.LENGTH_SHORT).show()
                     finish()
 
                 }

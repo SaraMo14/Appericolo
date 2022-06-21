@@ -6,27 +6,31 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.appericolo.R
 import com.example.appericolo.InfoFakeCallActivity
+import com.example.appericolo.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
+//Classe che mostra la mappa con la posizione attuale dell'utente nella home
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
 ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -48,6 +52,18 @@ ActivityCompat.OnRequestPermissionsResultCallback {
         //val style = MapStyleOptions.loadRawResourceStyle(this.requireContext(), R.raw.home_map_style)
         //mMap.setMapStyle(style)
         mMap.setOnMarkerClickListener(this)
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this.requireContext(), R.raw.home_map_style))
+            if (!success) {
+                Log.e("style", "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e("style", "Can't find style.", e)
+        }
         fetchLocation()
     }
 
@@ -55,7 +71,7 @@ ActivityCompat.OnRequestPermissionsResultCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val view = inflater.inflate(R.layout.fragment_map_home, container, false)
 
@@ -67,8 +83,6 @@ ActivityCompat.OnRequestPermissionsResultCallback {
 
         view.findViewById<FloatingActionButton>(R.id.goToSelectDestinationButton)
             .setOnClickListener() {
-                /*val intent = Intent(this.requireContext(), SelectDestinationActivity::class.java)
-                startActivity(intent)*/
                 Navigation.findNavController(view).navigate(R.id.action_navigation_dashboard_to_selectDestinationFragment)
 
             }
@@ -80,11 +94,11 @@ ActivityCompat.OnRequestPermissionsResultCallback {
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(this.requireActivity())
 
-        //checkLocationPermission()
         return view
     }
 
 
+    //metodo che individua la posizione attuale dell'utente
     @SuppressLint("MissingPermission")
     private fun fetchLocation() {
         if (checkLocationPermission()) {
@@ -92,11 +106,8 @@ ActivityCompat.OnRequestPermissionsResultCallback {
             fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) {
                 if (it != null) {
                     lastLocation = it
-                    //val currentLatLng = LatLng(it.latitude, it.longitude)
                     mMap.clear()
-                    //placeMarkerOnMap(currentLatLng, mMap)
-                    //Toast.makeText(context, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                }
+                    }
             }
         }
     }
@@ -106,13 +117,9 @@ ActivityCompat.OnRequestPermissionsResultCallback {
         return false
     }
 
-    /*private fun placeMarkerOnMap(currentLatLng: LatLng, mMap: GoogleMap) {
-        val markerOptions = MarkerOptions().position(currentLatLng)
-        markerOptions.title("$currentLatLng")
-        mMap.addMarker(markerOptions)
-    }*/
 
-       private fun checkLocationPermission(): Boolean {
+
+    private fun checkLocationPermission(): Boolean {
             if (ActivityCompat.checkSelfPermission(
                     this.requireContext(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -151,5 +158,8 @@ ActivityCompat.OnRequestPermissionsResultCallback {
             val alert: AlertDialog = builder.create()
             alert.show()
         }
+
+
+
 
     }

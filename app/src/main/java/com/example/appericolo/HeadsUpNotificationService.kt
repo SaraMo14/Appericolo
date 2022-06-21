@@ -62,7 +62,6 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onHandleIntent(intent: Intent?) {
-        Log.i("HELP",  "service")
         //Create Channel
         createChannel()
 
@@ -99,7 +98,7 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     //.setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.arrow_down_float) //RIVEDI
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.sym_def_app_icon)) //RIVEDI
+                    .setLargeIcon(BitmapFactory.decodeResource(res, com.example.appericolo.R.drawable.icon_accept_call))
                     .setAutoCancel(true)
                     .setContentTitle("Chiamata in arrivo")
                     .setPriority(Notification.PRIORITY_HIGH)
@@ -114,7 +113,7 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     //.setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.arrow_down_float)//RIVEDI
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.sym_def_app_icon)) //RIVEDI
+                    .setLargeIcon(BitmapFactory.decodeResource(res, com.example.appericolo.R.drawable.icon_accept_call))
                     .setAutoCancel(true)
                     .setPriority(Notification.PRIORITY_MAX)
                     .setContentTitle("Chiamata in arrivo")

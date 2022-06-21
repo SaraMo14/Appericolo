@@ -27,12 +27,13 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.appericolo.ui.preferiti.PreferitiFragment"
-        android:label="fragment_preferiti"
+        android:label="I tuoi preferiti"
         tools:layout="@layout/fragment_preferiti" />
     <fragment
         android:id="@+id/selectDestinationFragment"
         android:name="com.example.appericolo.sharelocation.fragments.SelectDestinationFragment"
-        android:label="SelectDestinationFragment" >
+        android:label="Il tuo viaggio"
+        android:theme="@style/Theme.Appericolo.NoActionBar">
         <action
             android:id="@+id/action_selectDestinationFragment_to_showDestinationFragment"
             app:destination="@id/showDestinationFragment"
@@ -41,8 +42,9 @@
     <fragment
         android:id="@+id/showDestinationFragment"
         android:name="com.example.appericolo.sharelocation.fragments.ShowDestinationFragment"
-        android:label="fragment_show_destination"
-        tools:layout="@layout/fragment_show_destination" >
+        android:label="Il tuo viaggio"
+        tools:layout="@layout/fragment_show_destination"
+        android:theme="@style/Theme.Appericolo.NoActionBar">
         <action
             android:id="@+id/action_showDestinationFragment_to_arrivalTimeFragment"
             app:destination="@id/arrivalTimeFragment"
@@ -51,8 +53,9 @@
     <fragment
         android:id="@+id/arrivalTimeFragment"
         android:name="com.example.appericolo.sharelocation.fragments.ArrivalTimeFragment"
-        android:label="fragment_arrival_time"
-        tools:layout="@layout/fragment_arrival_time" >
+        android:label="Il tuo viaggio"
+        tools:layout="@layout/fragment_arrival_time"
+        android:theme="@style/Theme.Appericolo.NoActionBar">
         <action
             android:id="@+id/action_arrivalTimeFragment_to_summaryFragment"
             app:destination="@id/summaryFragment" />
@@ -60,8 +63,9 @@
     <fragment
         android:id="@+id/summaryFragment"
         android:name="com.example.appericolo.sharelocation.fragments.SummaryFragment"
-        android:label="fragment_summary"
-        tools:layout="@layout/fragment_summary" >
+        android:label="Il tuo viaggio"
+        tools:layout="@layout/fragment_summary"
+        android:theme="@style/Theme.Appericolo.NoActionBar">
         <action
             android:id="@+id/action_summaryFragment_to_locationUpdatesClientFragment"
             app:destination="@id/locationUpdatesClientFragment" />
@@ -69,8 +73,9 @@
     <fragment
         android:id="@+id/locationUpdatesClientFragment"
         android:name="com.example.appericolo.sharelocation.fragments.LocationUpdatesClientFragment"
-        android:label="fragment_location_updates_client"
-        tools:layout="@layout/fragment_location_updates_client" >
+        android:label="Condivisione in corso"
+        tools:layout="@layout/fragment_location_updates_client"
+        android:theme="@style/Theme.Appericolo.NoActionBar">
         <action
             android:id="@+id/action_locationUpdatesClientFragment_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard"

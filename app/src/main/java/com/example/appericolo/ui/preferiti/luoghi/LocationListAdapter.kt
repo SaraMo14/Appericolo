@@ -1,17 +1,19 @@
 package com.example.appericolo.ui.preferiti.luoghi
 
 
-import com.example.appericolo.ui.preferiti.luoghi.data.Location
+import com.example.appericolo.ui.preferiti.luoghi.database.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appericolo.R
 
+/**
+ * Adapter per la lista dei luoghi preferiti
+ */
 class LocationListAdapter(val listener: RowClickListener) : ListAdapter<Location, LocationListAdapter.LocationViewHolder>(
     LocationsComparator()) {
 
@@ -31,16 +33,14 @@ class LocationListAdapter(val listener: RowClickListener) : ListAdapter<Location
 
     class LocationViewHolder(itemView: View, val listener: RowClickListener) : RecyclerView.ViewHolder(itemView) {
         private val locationItemView: TextView = itemView.findViewById(R.id.textViewIndirizzo)
-        val delButton: ImageView = itemView.findViewById(R.id.delLocationButton)
+        //val delButton: ImageView = itemView.findViewById(R.id.delLocationButton)
         fun bind(data: Location?) {
-        //fun bind(text: String?) {
-            //locationItemView.text = text
             locationItemView.text = data?.indirizzo
-            delButton.setOnClickListener {
+            /*delButton.setOnClickListener {
                 if (data != null) {
                     listener.onDeleteLocationClickListener(data)
                 }
-            }
+            }*/
         }
 
 

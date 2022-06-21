@@ -11,6 +11,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Interfaccia contenente metodi utili per la gestione delle mappe e della posizione
+ */
 interface MapsUtil {
     fun showPlaceOnMap(destinationCoordinates: LatLng, mMap: GoogleMap){
         placeMarkerOnMap(destinationCoordinates, mMap, 0)

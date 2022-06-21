@@ -9,6 +9,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.appericolo.databinding.FragmentPreferitiBinding
 import com.google.android.material.tabs.TabLayout
 
+/**
+ * Fragment contenuto nella sezione 'Preferiti' della bottom navigation bar. Esso ospita i tab "Contatti" e "Luoghi"
+ */
 class PreferitiFragment : Fragment() {
 
     private lateinit var tabLayout: TabLayout
@@ -36,11 +39,6 @@ class PreferitiFragment : Fragment() {
         tabLayout.setupWithViewPager(viewPager)
 
 
-
-        //val textView: TextView = binding.textNotifications
-        //notificationsViewModel.text.observe(viewLifecycleOwner) {
-          //  textView.text = it
-        //}
         return root
     }
 
