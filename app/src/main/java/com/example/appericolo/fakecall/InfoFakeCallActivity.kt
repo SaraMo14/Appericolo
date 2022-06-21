@@ -1,4 +1,4 @@
-package com.example.appericolo
+package com.example.appericolo.fakecall
 
 import android.app.*
 import android.content.Context
@@ -12,11 +12,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.appericolo.R
 import com.example.appericolo.databinding.ActivityInfoFakeCallBinding
 import com.example.appericolo.utils.NotificationUtils
 import java.util.*
 
-
+/**
+ * Activity per programmare una nuova telefonata
+ */
 class InfoFakeCallActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInfoFakeCallBinding
     private lateinit var calendar: Calendar
@@ -35,16 +38,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
         val mcurrentTime = Calendar.getInstance()
         calendar = Calendar.getInstance()
 
-        /*val datePicker = DatePickerDialog(this,
-            { _, year, month, dayOfMonth -> binding.callDate.setText(String.format("%d / %d / %d", dayOfMonth, month + 1, year))
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.YEAR, year)
-            }, mcurrentTime.get(Calendar.YEAR), mcurrentTime.get(Calendar.MONTH), mcurrentTime.get(Calendar.DAY_OF_MONTH))
-        datePicker.datePicker.minDate= mcurrentTime.timeInMillis
-        binding.selectDate.setOnClickListener{
-            datePicker.show()
-        }*/
+
 
 
         val timePicker = TimePickerDialog(this,
@@ -98,14 +92,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun scheduleCall(){
-        //versione 1
-        /*val intent = Intent(this, IncomingCallActivity::class.java)
-        intent.putExtra("nominativo", binding.callName.text.toString())
-        intent.putExtra("cellulare",  binding.callNumber.text.toString())
-        val pendingIntent =PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        val alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-        */
+
         val intent = Intent(this, FakeCallReceiver::class.java)
         intent.putExtra("nominativo", binding.callName.text.toString())
         intent.putExtra("cellulare",  binding.callNumber.text.toString())
@@ -122,6 +109,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
     //metodo che produce un dialog con le informazioni sulla call programmata se l'utente seleziona la relativa voce nel menu
+    //e che consente di eliminarla
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.settings ->{
@@ -137,11 +125,11 @@ class InfoFakeCallActivity : AppCompatActivity() {
                         scheduled_time = intent.getStringExtra("orario")
                     builder.setMessage("C'è una chiamata programmata. Eliminarla?")
                     //performing negative action
-                    builder.setPositiveButton("No"){dialogInterface, which ->
-                        Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
+                    builder.setPositiveButton("No"){_, _ ->
+                        //Toast.makeText(applicationContext,"clicked No",Toast.LENGTH_LONG).show()
                     }
                     //performing cancel action
-                    builder.setNeutralButton("Elimina") { dialogInterface, which ->
+                    builder.setNeutralButton("Elimina") { _, _ ->
                         val notificationManager =
                             this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                         alarmUp.cancel()

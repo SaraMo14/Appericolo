@@ -1,13 +1,14 @@
-package com.example.appericolo
+package com.example.appericolo.fakecall
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 
-
+/**
+ * Receiver per la ricezione dell'intent di una chiamata pianificata
+ */
 private const val TAG = "PhoneCallReceiver"
 
 class FakeCallReceiver : BroadcastReceiver() {

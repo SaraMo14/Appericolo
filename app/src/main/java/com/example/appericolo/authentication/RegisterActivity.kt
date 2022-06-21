@@ -68,6 +68,8 @@ class RegisterActivity : AppCompatActivity() {
 
         if (validName && validSurname && validEmail && validPassword && validPhone)
             createAccount()
+        else
+            invalidForm()
     }
 
     private fun createAccount() {
@@ -77,8 +79,8 @@ class RegisterActivity : AppCompatActivity() {
         password = binding.registerPassword.text.toString()
         email = binding.registerEmail.text.toString()
 
-        mFirebaseAuth!!
-            .createUserWithEmailAndPassword(email!!, password!!)
+        mFirebaseAuth
+            .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = User(name, surname, cell_number, email)
@@ -167,5 +169,28 @@ class RegisterActivity : AppCompatActivity() {
             return "Inserire un cognome"
         }
         return null
+    }
+
+    private fun invalidForm()
+    {
+        var message = ""
+        if(binding.EmailContainer.helperText != null)
+            message += "\n\nEmail: " + binding.EmailContainer.helperText
+        if(binding.passwordContainer.helperText != null)
+            message += "\n\nPassword: " + binding.passwordContainer.helperText
+        if(binding.phoneContainer.helperText != null)
+            message += "\n\nPhone: " + binding.phoneContainer.helperText
+        if(binding.NameContainer.helperText != null)
+            message += "\n\nName: " + binding.NameContainer.helperText
+        if(binding.SurnameContainer.helperText != null)
+            message += "\n\nSurname: " + binding.SurnameContainer.helperText
+
+        AlertDialog.Builder(this)
+            .setTitle("Invalid Form")
+            .setMessage(message)
+            .setPositiveButton("Okay"){ _,_ ->
+                // do nothing
+            }
+            .show()
     }
 }

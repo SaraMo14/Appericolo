@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appericolo.R
@@ -48,6 +49,8 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
         destination = LatLng(destinationLat!!, destinationLong!!)
 
 
+        binding.textViewTime.text = arrivalTime
+        //binding.textViewAddress.text = indirizzoDestinazione
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -72,9 +75,9 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
                     Log.d("location", lat.toString())
                     Log.d("location", long.toString())
                     currentPosition = LatLng(lat!!, long!!)
-
+                    mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 16F))
                     try{
-                        placeMarkerOnMap(currentPosition, mMap, R.drawable.icons8_walking_24)
+                        placeMarkerOnMap(currentPosition, mMap, R.drawable.icons8_circle_24)
                     }catch(e:Exception){
                         Log.d("LocationUpdatesReceiver", "error")
                     }

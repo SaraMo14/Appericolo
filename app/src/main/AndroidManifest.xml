@@ -57,12 +57,12 @@
             android:screenOrientation="portrait"/>
 
         <service
-            android:name=".HeadsUpNotificationService"
+            android:name=".fakecall.HeadsUpNotificationService"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".FakeCallReceiver"
+            android:name=".fakecall.FakeCallReceiver"
             android:enabled="true"
             android:exported="true"
             >
@@ -80,7 +80,7 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".IncomingCallActivity"
+            android:name=".fakecall.IncomingCallActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -91,7 +91,7 @@
             android:turnScreenOn="true"
             />
         <activity
-            android:name=".InfoFakeCallActivity"
+            android:name=".fakecall.InfoFakeCallActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <!--

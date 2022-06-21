@@ -1,4 +1,4 @@
-package com.example.appericolo
+package com.example.appericolo.fakecall
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -9,11 +9,9 @@ import android.view.WindowInsets
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appericolo.databinding.ActivityIncomingCallBinding
-import com.example.appericolo.IncomingCallFragment
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+*Fullscreen Activity che simula l'arrivo di una chiamata
  */
 class IncomingCallActivity : AppCompatActivity() {
 
@@ -28,10 +26,7 @@ class IncomingCallActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= 30) {
             fullscreenContent.windowInsetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
         } else {
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            fullscreenContent.systemUiVisibility =
+              fullscreenContent.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LOW_PROFILE or
                         View.SYSTEM_UI_FLAG_FULLSCREEN or
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -70,7 +65,7 @@ class IncomingCallActivity : AppCompatActivity() {
         fullscreenContentControls = binding.fullscreenContentControls
 
 
-        //versione1
+
         binding.nominativo.text = intent.getStringExtra("nominativo")
         binding.cellulare.text = intent.getStringExtra("cellulare")
         val mFragmentManager1 = supportFragmentManager

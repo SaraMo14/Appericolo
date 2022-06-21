@@ -1,4 +1,4 @@
-package com.example.appericolo
+package com.example.appericolo.fakecall
 
 import android.app.NotificationManager
 import android.content.Context
@@ -11,12 +11,13 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.appericolo.CallAcceptedFragment
-import com.example.appericolo.HeadsUpNotificationService
 import com.example.appericolo.R
 import com.example.appericolo.R.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/**
+ * Fragment per accettare o rifiutare una chiamata
+ */
 
 class IncomingCallFragment : Fragment(){
 
@@ -25,18 +26,13 @@ class IncomingCallFragment : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(layout.fragment_incoming_call, container, false)
-        //set ringtone
-        /*val ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val r = RingtoneManager.getRingtone(activity?.applicationContext, ringtone)
-        r.isLooping = true
-        r.play()*/
+
         val refuseButton = view.findViewById<FloatingActionButton>(R.id.refuseCallButton)
         val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         refuseButton.setOnClickListener{
-            notificationManager?.cancel(1000)
+            notificationManager.cancel(1000)
             activity?.finish()
         }
 

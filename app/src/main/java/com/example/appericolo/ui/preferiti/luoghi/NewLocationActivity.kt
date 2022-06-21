@@ -141,10 +141,8 @@ class NewLocationActivity() : FragmentActivity(), OnMapReadyCallback, LocationLi
 
             mMap!!.clear()
             mMap!!.addMarker(MarkerOptions().position(latLng).title(location))
-            mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-            //mMap!!.animateCamera(CameraUpdateFactory.zoomTo(6f))
-            //Toast.makeText(this.applicationContext, address.latitude.toString() + " " + address.longitude, Toast.LENGTH_LONG).show()
-
+           // mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+            mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16F))
         }
     }
 

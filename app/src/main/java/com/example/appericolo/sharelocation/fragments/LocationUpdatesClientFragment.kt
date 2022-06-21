@@ -147,6 +147,7 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
                 MapFragment.lastLocation = it
                 val currentLatLng = LatLng(it.latitude, it.longitude)
+                mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16F))
                 placeMarkerOnMap(currentLatLng, mMap, R.drawable.icons8_street_view_48) //marker della persona posizionato all'inizio del percorso
             }
         }
@@ -179,14 +180,13 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
                         // These registration tokens come from the client FCM SDKs.
                         database.parent?.parent?.get()?.addOnSuccessListener { users->
                             for (user in users.children){
-                                //Log.i("contatti db remoto2: ", user.child("name").getValue().toString())
+                                //Log.i("contatti db remoto: ", user.child("name").getValue().toString())
                                 for (favContact in contactViewModel.readAllData.value!!) {
-                                    //Log.i("contatti in db local2: ", favContact.name.toString())
-                                    if (favContact.number == user.child("cell_number").getValue().toString() ||
-                                        favContact.number == "+39" + user.child("cell_number").getValue().toString() ||
-                                        "+39" + favContact.number == user.child("cell_number").getValue().toString() ) {
-                                        //Log.i("contatto buono2", user.child("name").getValue().toString())
-                                        //tokens.add()
+                                    //Log.i("contatti in db locale: ", favContact.number.toString().replace(" ", ""))
+                                    if (favContact.number.replace(" ", "") == user.child("cell_number").getValue().toString() ||
+                                        favContact.number.replace(" ", "") == ("+39" + user.child("cell_number").getValue().toString()) ||
+                                        ("+39" + favContact.number.replace(" ", "")) == user.child("cell_number").getValue().toString() ) {
+                                        //Log.i("contatto buono", user.child("name").getValue().toString())
 
                                         val token = user.child("token").getValue().toString()
                                         //invia notifica al contatto stretto selezionato

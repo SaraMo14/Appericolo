@@ -1,4 +1,4 @@
-package com.example.appericolo
+package com.example.appericolo.fakecall
 
 import android.R
 import android.annotation.SuppressLint
@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import java.util.*
 
@@ -98,7 +97,8 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     //.setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.arrow_down_float) //RIVEDI
-                    .setLargeIcon(BitmapFactory.decodeResource(res, com.example.appericolo.R.drawable.icon_accept_call))
+                    .setLargeIcon(BitmapFactory.decodeResource(res,
+                        com.example.appericolo.R.drawable.icon_accept_call))
                     .setAutoCancel(true)
                     .setContentTitle("Chiamata in arrivo")
                     .setPriority(Notification.PRIORITY_HIGH)
@@ -113,7 +113,8 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     //.setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.arrow_down_float)//RIVEDI
-                    .setLargeIcon(BitmapFactory.decodeResource(res, com.example.appericolo.R.drawable.icon_accept_call))
+                    .setLargeIcon(BitmapFactory.decodeResource(res,
+                        com.example.appericolo.R.drawable.icon_accept_call))
                     .setAutoCancel(true)
                     .setPriority(Notification.PRIORITY_MAX)
                     .setContentTitle("Chiamata in arrivo")

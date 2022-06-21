@@ -117,6 +117,7 @@ class ShowDestinationFragment : Fragment(), MapsUtil {
 
                 MapFragment.lastLocation = it
                 val currentLatLng = LatLng(it.latitude, it.longitude)
+                mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12F))
                 placeMarkerOnMap(currentLatLng, mMap, R.drawable.icons8_street_view_48)
             }
         }

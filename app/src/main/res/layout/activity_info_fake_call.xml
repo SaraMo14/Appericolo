@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoFakeCallActivity">
+    tools:context=".fakecall.InfoFakeCallActivity">
 
 
     <!--<EditText
@@ -52,6 +52,7 @@
         android:layout_height="50dp"
         android:clickable="false"
         android:ems="10"
+        android:focusable="false"
         android:hint="Ora"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,14 +103,14 @@
 
     <ImageView
         android:id="@+id/selectTime"
-        android:layout_width="57dp"
-        android:layout_height="0dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toTopOf="@+id/scheduleCallButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.691"
+        app:layout_constraintHorizontal_bias="0.69"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/callNumber"
-        app:srcCompat="@drawable/alarm_icon" />
+        app:srcCompat="@drawable/ic_baseline_access_alarm_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
