@@ -36,7 +36,7 @@ class LocationViewModel(private val repository: LocationRepository) : ViewModel(
            //}
        }
 }
-
+//per creare istanze del view model
 class LocationViewModelFactory(private val repository: LocationRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LocationViewModel::class.java)) {

@@ -13,7 +13,7 @@ import java.util.*
  */
 class NotificationUtils {
 
-
+    //metodo per la creazione della notifica
     fun setNotification(timeInMilliSeconds: Long, activity: Activity, name: String, cell: String) {
 
         //------------  alarm settings start  -----------------//

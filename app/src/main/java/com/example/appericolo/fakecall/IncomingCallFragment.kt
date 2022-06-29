@@ -16,7 +16,7 @@ import com.example.appericolo.R.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
- * Fragment per accettare o rifiutare una chiamata
+ * Fragment per accettare o rifiutare una chiamata legato all'IncomingCallActivity
  */
 
 class IncomingCallFragment : Fragment(){
@@ -32,6 +32,7 @@ class IncomingCallFragment : Fragment(){
         val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         refuseButton.setOnClickListener{
+            //cancello la notifica con id 1000
             notificationManager.cancel(1000)
             activity?.finish()
         }
@@ -41,6 +42,7 @@ class IncomingCallFragment : Fragment(){
             val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
             val fragment = CallAcceptedFragment()
+            //lego il fragment CallAcceptedFragment all'activity in modo dinamico, al posto del fragment corrente
             fragmentTransaction.replace(R.id.fullscreen_content, fragment).commit()
             //r.stop()
             notificationManager.cancel(HeadsUpNotificationService.mNotificationId)

@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
         val validPassword = binding.passwordContainer.helperText == null
         val validPhone = binding.phoneContainer.helperText == null
 
-
+        //se gli helper text sono tutti null -> creo l'account
         if (validName && validSurname && validEmail && validPassword && validPhone)
             createAccount()
         else
@@ -84,6 +84,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = User(name, surname, cell_number, email)
+                    //inserisco l'utente nel db realtime
                     database.child(FirebaseAuth.getInstance().currentUser!!.uid).setValue(user)
                     val intent = Intent(this, LoginActivity::class.java)
                     //store registration token
@@ -95,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
                     finish()
 
                 } else {
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    //Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         this@RegisterActivity, "Autenticazione fallita. Riprova di nuovo.",
                         Toast.LENGTH_SHORT

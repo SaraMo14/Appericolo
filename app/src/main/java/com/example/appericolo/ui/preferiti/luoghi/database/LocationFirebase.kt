@@ -11,7 +11,7 @@ class LocationFirebase {
         FirebaseDatabase.getInstance("https://appericolo-23934-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users/" + Firebase.auth.currentUser?.uid.toString())
 
-
+    //metodo per aggiornare la posizione di un utente
     fun insertCurrentLocation(position: LatLng){
         database.child("position").setValue(position) //contiene position.latitude e position.longitude
     }

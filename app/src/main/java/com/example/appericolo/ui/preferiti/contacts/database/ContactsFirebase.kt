@@ -1,12 +1,16 @@
 package com.example.appericolo.ui.preferiti.contacts.database
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 /**
  * Classe per la gestione dei contatti stretti associati ad un utente su firebase
@@ -21,8 +25,9 @@ class ContactsFirebase {
 
     var tokens= ArrayList<String>()
 
-    fun getFavContacts(): ArrayList<Contact> {
+     fun getFavContacts(): ArrayList<Contact> {
         val favContactList = ArrayList<Contact>()
+
         database.get().addOnSuccessListener { contacts->
             for (contact in contacts.children){
                 val contact_name = contact.key.toString()

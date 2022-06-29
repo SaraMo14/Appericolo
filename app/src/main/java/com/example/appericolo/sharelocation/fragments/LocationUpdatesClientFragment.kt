@@ -273,8 +273,10 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")//non c'è bisogno di controllare i permessi poiché è gia stato fatto nella home
     private fun updateLocation(){
+        //creazione richiesta di aggiornamento sulla posizione
         buildLocationRequest()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
+        //invio richiesta
         getPendingIntent()?.let { fusedLocationClient.requestLocationUpdates(locationRequest, it) }
 
     }
@@ -290,8 +292,11 @@ class LocationUpdatesClientFragment : Fragment(), OnMapReadyCallback,
 
     private fun getPendingIntent(): PendingIntent? {
         val intent = Intent(this.activity, MyLocationService::class.java)
+        //setta azione verso il broadcast receiver da effettua
         intent.setAction(MyLocationService.ACTION_PROCESS_UPDATE)
         return PendingIntent.getBroadcast(this.activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT )
+        //FLAG_UPDATE_CURRENT: Flag indicating that if the described PendingIntent already exists,
+        // then keep it but replace its extra data with what is in this new Intent
     }
 
     //metodo per l'aggiornamento continuo della posizione dell'utente in movimento sul database real-time

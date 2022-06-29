@@ -34,7 +34,7 @@ class NewContactActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_new_contact)
 
-        //controllo permessi
+        //controllo permessi per accedere a rubrica
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_CONTACTS
@@ -54,6 +54,7 @@ class NewContactActivity : AppCompatActivity() {
                 return false
             }
 
+            //
             override fun onQueryTextChange(p0: String?): Boolean {
                 getContacts("${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?", Array(1){"$p0%"})
                 return false
@@ -71,11 +72,14 @@ class NewContactActivity : AppCompatActivity() {
             getContacts(null, null)
     }
 
+
     private fun getContacts(selection: String?, selectionArgs: Array<String>?){
         var response = sendQuery(selection, selectionArgs)
         populateRecyclerView(response)
 
     }
+
+    //funzione che legge i contatti dalla rubrica
     private fun sendQuery(selection: String?, selectionArgs: Array<String>?): Cursor? {
         return contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,

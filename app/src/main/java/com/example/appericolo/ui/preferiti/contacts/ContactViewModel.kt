@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.appericolo.ui.preferiti.contacts.database.Contact
 import com.example.appericolo.ui.preferiti.contacts.database.ContactRoomDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class ContactViewModel(application: Application) : AndroidViewModel(application) {

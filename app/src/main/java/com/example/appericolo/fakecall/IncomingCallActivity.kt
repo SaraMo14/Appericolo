@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.appericolo.databinding.ActivityIncomingCallBinding
 
 /**
-*Fullscreen Activity che simula l'arrivo di una chiamata
+*Fullscreen Activity che simula l'arrivo di una chiamata. Si apre sul click della notifica
  */
 class IncomingCallActivity : AppCompatActivity() {
 
@@ -68,6 +68,7 @@ class IncomingCallActivity : AppCompatActivity() {
 
         binding.nominativo.text = intent.getStringExtra("nominativo")
         binding.cellulare.text = intent.getStringExtra("cellulare")
+        //lego il fragment IncomingCallFragment all'activity in modo dinamico
         val mFragmentManager1 = supportFragmentManager
         val mFragmentTransaction1 = mFragmentManager1.beginTransaction()
         val mFragment1 = IncomingCallFragment()

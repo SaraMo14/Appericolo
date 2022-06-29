@@ -18,7 +18,7 @@ class ContactRepository(private val database : ContactRoomDatabase) {
     }*/
 
     //metodo per inserimento dei contatti stretti di un utente dal db remoto al db locale
-     fun putFavFromRemoteToLocal(){
+      fun putFavFromRemoteToLocal(){
         var list = contactsFirebase.getFavContacts()
 
         for (contact in list){

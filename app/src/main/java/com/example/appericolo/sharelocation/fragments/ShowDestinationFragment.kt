@@ -83,6 +83,7 @@ class ShowDestinationFragment : Fragment(), MapsUtil {
         mapFragment?.getMapAsync(callback)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
 
+        //estraggo i dati del bundle del fragment precedente
         destination = arguments?.getString("indirizzo").toString()
         view.findViewById<FloatingActionButton>(R.id.forwardFab).setOnClickListener{
             //val address = Geocoder(this.requireContext()).getFromLocationName(destination, 1)[0] //LatLng(address.latitude, address.longitude)

@@ -35,11 +35,13 @@ class ArrivalTimeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_arrival_time, container, false)
+        //bundle del fragment ShowDestinationFragment
         val indirizzo = arguments?.getString("indirizzo").toString()
         val coordinate: LatLng? = arguments?.getParcelable("coordinate")
         view.findViewById<MaterialButton>(R.id.estimatedArrivalTime).setOnClickListener {
             popTimePicker()
         }
+        //se clicco sulla freccia per proseguire:
         view.findViewById<FloatingActionButton>(R.id.forwardFab2).setOnClickListener {
             //se l'orario inserito supera l'ora attuale
             if(MapsUtil.isArrivalTimeExpired(view?.findViewById<Button>(R.id.estimatedArrivalTime)?.text.toString())){

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LocationDao {
     @Query("SELECT * FROM location")
+    // Flow rappresenta un flusso di dati che può essere ottenuto in modo asincrono
     fun getAll(): Flow<List<Location>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

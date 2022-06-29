@@ -48,6 +48,7 @@ class ListaLuoghiFragment : Fragment(), LocationListAdapter.RowClickListener {
             locations?.let { adapter.submitList(it) }
         })
 
+        //per aggiungere un nuovo luogo
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this.requireContext(), NewLocationActivity::class.java)

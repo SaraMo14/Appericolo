@@ -18,7 +18,7 @@ import android.content.Context
 import com.example.appericolo.sharelocation.LocationUpdatesReceiverActivity
 
 /**
- * Classe per gestire la ricezione dei messaggi da Firebase Cloud Messaging.
+ * Classe per gestire la ricezione dei messaggi da Firebase Cloud Messaging, tramite un service che gira in background.
  */
 private const val CHANNEL_ID = "my_channel"
 

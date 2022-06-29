@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        // to keep the user logged
+        // per mantenere l'utente loggato
         var auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         if (currentUser !=null){
@@ -49,10 +49,13 @@ class LoginActivity : AppCompatActivity() {
             if (checkFields()) {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener {
-                        if (it.isSuccessful) {
+                        if (it.isSuccessful) { //se l'account esiste
 
                             val contactViewModel : ContactViewModel= ViewModelProvider(this).get(ContactViewModel::class.java)
+                            //i contatti in locale vengono cancellati per evitare conflitti in caso di
+                            //login di utenti diversi sullo stesso device
                             contactViewModel.deleteAll()
+                            //sincronizzazione con il db remoto
                             contactViewModel.putFavFromRemoteToLocal()
                             val MoveToMain = Intent(this, MainActivity::class.java)
 

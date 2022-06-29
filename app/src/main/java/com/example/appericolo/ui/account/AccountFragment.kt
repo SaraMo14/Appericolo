@@ -68,6 +68,10 @@ class AccountFragment : Fragment() {
             locationViewModel.deleteAllLocations()
             Firebase.auth.signOut()
             val login = Intent(activity?.applicationContext, LoginActivity::class.java)
+
+            ///////////
+            activity?.finish()
+            /////////
             activity?.startActivity(login)
         }
 

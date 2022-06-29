@@ -66,6 +66,7 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
 
 
         var timestamp: Long = 0
+        //verifico che l'intent esista
         if (intent != null && intent.extras != null) {
             timestamp = intent.extras!!.getLong("timestamp")
         }
@@ -73,6 +74,9 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
         if (timestamp > 0) {
             val context = this.applicationContext
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+
+            //creo l'intent da lanciare quando si clicca sulla notifica
             val notifyIntent = Intent(this, IncomingCallActivity::class.java)
 
             val number = intent?.getStringExtra("cellulare")
@@ -96,7 +100,7 @@ class HeadsUpNotificationService : IntentService("NotificationService") {
                 mNotification = Notification.Builder(this, CHANNEL_ID)
                     // Set the intent that will fire when the user taps the notification
                     //.setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.arrow_down_float) //RIVEDI
+                    .setSmallIcon(R.drawable.arrow_down_float)
                     .setLargeIcon(BitmapFactory.decodeResource(res,
                         com.example.appericolo.R.drawable.icon_accept_call))
                     .setAutoCancel(true)

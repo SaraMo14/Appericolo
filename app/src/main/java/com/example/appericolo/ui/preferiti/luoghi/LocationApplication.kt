@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class LocationApplication : Application() {
+    //SupervisorJob: simile ad un Job regolare ma i figli possono fallire indipendentemente uno dall'altro
     val applicationScope = CoroutineScope(SupervisorJob())
     // Using by lazy so the database and the repository are only created when they're needed
     // rather than when the application starts

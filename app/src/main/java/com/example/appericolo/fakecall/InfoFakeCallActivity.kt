@@ -31,11 +31,15 @@ class InfoFakeCallActivity : AppCompatActivity() {
         binding = ActivityInfoFakeCallBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        //disabilito il bottone fino all'inserimento dei dati
         binding.scheduleCallButton.isEnabled =false
 
 
+        //inizializzo due variabili per la data odierna
+
+        //utile per mostrare a video l'orario attuale
         val mcurrentTime = Calendar.getInstance()
+        //utile per memorizzare l'orario scelto dall'utente
         calendar = Calendar.getInstance()
 
 
@@ -43,6 +47,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
 
         val timePicker = TimePickerDialog(this,
             { _, hourOfDay, minute -> binding.callTime.setText(String.format("%d : %d", hourOfDay, minute))
+                //setting di 'calendar' con l'orario scelto
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
             }, mcurrentTime.get(Calendar.HOUR_OF_DAY), mcurrentTime.get(Calendar.MINUTE), false)
@@ -52,7 +57,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
         }
 
 
-
+        //definizione Listener per effettuare ogni volta che cambia il testo un controllo dei dati
         val watcher: TextWatcher = object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 //YOUR CODE
@@ -67,7 +72,7 @@ class InfoFakeCallActivity : AppCompatActivity() {
                 binding.scheduleCallButton.isEnabled = inputValidation()
             }
         }
-
+        //applico il listener
         binding.callName.addTextChangedListener(watcher)
         binding.callTime.addTextChangedListener(watcher)
 
@@ -77,7 +82,8 @@ class InfoFakeCallActivity : AppCompatActivity() {
             val name = binding.callName.text.toString()
             val number= binding.callNumber.text.toString()
             //schedule notification
-            NotificationUtils().setNotification(calendar.timeInMillis, this, name, number) /* notification time, */
+            NotificationUtils().setNotification(calendar.timeInMillis, this, name, number)
+            /*in millis specifico l'ora in cui voglio ricevere la notifica*/
             Toast.makeText(applicationContext, "Chiamata pianificata alle ore " + calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE), Toast.LENGTH_LONG).show()
             finish()
         }
@@ -108,15 +114,17 @@ class InfoFakeCallActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.delete_call_menu,menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     //metodo che produce un dialog con le informazioni sulla call programmata se l'utente seleziona la relativa voce nel menu
     //e che consente di eliminarla
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
-            R.id.settings ->{
+            R.id.settings ->{ //se clicco sull'unica option esistente "Chiamate"
 
 
             val builder = AlertDialog.Builder(this)
             //verifica se ci sono chiamate programmate
+                //se ci sono chiamate programmate alarmUp è != null, altrimenti è pari a null
                 val alarmUp = PendingIntent.getBroadcast(this, 0,
                     Intent(this, FakeCallReceiver::class.java), PendingIntent.FLAG_NO_CREATE)
                 val scheduled_time: String?

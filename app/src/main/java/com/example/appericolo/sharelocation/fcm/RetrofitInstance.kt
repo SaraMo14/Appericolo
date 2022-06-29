@@ -11,13 +11,13 @@ class RetrofitInstance {
 
     companion object {
         private val retrofit by lazy {
-            Retrofit.Builder()
+            Retrofit.Builder() //definisco il client http
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-
-        val api by lazy {
+        //creo l'api da prendere dall'istanza di retrofit
+        val api by lazy { //creo la richiesta post del client verso firebase
             retrofit.create(NotificationAPI::class.java)
         }
     }

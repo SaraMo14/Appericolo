@@ -63,7 +63,7 @@ class LocationUpdatesReceiverActivity : AppCompatActivity(), OnMapReadyCallback 
             "users/" + senderUid+ "/position")
 
         //listener delle coordinate della posizione dell'utente che condivide (client)
-        //ad ogni aggiornamento, si verifica si aggiunge un marker sulla mappa e si verifica se
+        //ad ogni aggiornamento, si aggiunge un marker sulla mappa e si verifica se
         //il tempo di arrivo previsto è passato e se l'utente è  nei pressi della destinazione
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
